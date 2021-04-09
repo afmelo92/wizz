@@ -19,7 +19,7 @@ export default function LeadsTemplate() {
         <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
           <Sidebar />
           <VStack
-            background="gray.700"
+            background="gray.800"
             borderRadius="10"
             spacing={8}
             direction="column"
@@ -28,7 +28,7 @@ export default function LeadsTemplate() {
             p="8"
           >
             <FormControl id="exhibition_name">
-              <FormLabel color="pink.400">Nome de exibição</FormLabel>
+              <FormLabel>Nome de exibição</FormLabel>
               <Input
                 type="text"
                 placeholder="Nome"
@@ -39,10 +39,11 @@ export default function LeadsTemplate() {
               </FormHelperText>
             </FormControl>
             <FormControl id="custom_text">
-              <FormLabel color="pink.400">Mensagem personalizada</FormLabel>
+              <FormLabel>Mensagem personalizada</FormLabel>
               <Textarea focusBorderColor="pink.500" placeholder="Mensagem" />
               <FormHelperText color="gray.200">
-                Envie uma mensagem curta personalizada em seu convite.
+                Envie uma mensagem curta personalizada em seu convite de até 180
+                caracteres.
               </FormHelperText>
             </FormControl>
             <Button

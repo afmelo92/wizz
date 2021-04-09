@@ -1,3 +1,5 @@
+import InviteTemplate from 'templates/Invite'
+
 export default function InviteDynamicPage() {
-  return <h1>InviteDynamicPage</h1>
+  return <InviteTemplate />
 }
