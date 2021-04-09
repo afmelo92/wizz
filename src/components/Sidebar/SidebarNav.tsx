@@ -20,7 +20,7 @@ export default function SidebarNav() {
           <NavLink href="/close-friends" icon={RiGroupLine}>
             Close friends
           </NavLink>
-          <NavLink href="/leads-page" icon={RiReplyAllLine}>
+          <NavLink href="/leads" icon={RiReplyAllLine}>
             Captura de leads
           </NavLink>
           <NavLink href="/loja" icon={RiStore2Line}>

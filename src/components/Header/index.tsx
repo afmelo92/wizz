@@ -12,7 +12,7 @@ import { Profile } from './Profile'
 import { NotificationsNav } from './NotificationsNav'
 import { SearchBox } from './SearchBox'
 import { Logo } from './Logo'
-import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext'
+import { useSidebarDrawer } from 'contexts/SidebarDrawerContext'
 import { RiMenuLine } from 'react-icons/ri'
 
 export function Header() {

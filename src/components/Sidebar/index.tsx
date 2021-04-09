@@ -8,7 +8,7 @@ import {
   DrawerHeader,
   DrawerBody
 } from '@chakra-ui/react'
-import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext'
+import { useSidebarDrawer } from 'contexts/SidebarDrawerContext'
 
 import SidebarNav from './SidebarNav'
 

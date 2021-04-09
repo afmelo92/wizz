@@ -20,9 +20,10 @@ import {
   Tbody,
   Checkbox
 } from '@chakra-ui/react'
-import { Sidebar } from '../../components/Sidebar'
-import { Header } from '../../components/Header'
+import { Sidebar } from 'components/Sidebar'
+import { Header } from 'components/Header'
 import { RiPencilLine } from 'react-icons/ri'
+import Pagination from 'components/Pagination'
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
@@ -392,6 +393,7 @@ const CloseFriendsTemplate = () => {
                 </Tr>
               </Tbody>
             </Table>
+            <Pagination />
           </Flex>
         </Flex>
       </Flex>

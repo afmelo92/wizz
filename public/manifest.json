@@ -1,0 +1,21 @@
+{
+  "name": "Wizz. - Gerenciador de audiencia",
+  "short_name": "Wizzapp.",
+  "icons": [
+    {
+      "src": "/img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#121214",
+  "description": "Gerenciador de audiencia com nextjs e chakraui!",
+  "display": "fullscreen",
+  "start_url": "/",
+  "theme_color": "#121214"
+}

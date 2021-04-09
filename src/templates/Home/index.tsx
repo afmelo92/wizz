@@ -1,5 +1,5 @@
 import { Box, Heading, Container, Text, Button, Stack } from '@chakra-ui/react'
-import { Header } from '../../components/Header'
+import { Header } from 'components/Header'
 
 const HomeTemplate = () => {
   return (

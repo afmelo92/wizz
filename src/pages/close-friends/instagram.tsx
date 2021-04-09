@@ -1,4 +1,4 @@
-import InstagramTemplate from '../../templates/CloseFriends/Instagram'
+import InstagramTemplate from 'templates/CloseFriends/Instagram'
 
 export default function CloseFriendsInstagramPage() {
   return <InstagramTemplate />

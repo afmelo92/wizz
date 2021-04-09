@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import { Flex, SimpleGrid, Box, Text, theme } from '@chakra-ui/react'
-import { Sidebar } from '../../components/Sidebar'
-import { Header } from '../../components/Header'
+import { Sidebar } from 'components/Sidebar'
+import { Header } from 'components/Header'
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
@@ -59,7 +59,7 @@ const DashboadTemplate = () => {
   return (
     <>
       <Header />
-      <Flex direction="column" h="100vh">
+      <Flex direction="column" h="100%">
         <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
           <Sidebar />
 

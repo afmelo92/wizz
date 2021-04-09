@@ -21,6 +21,11 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
           />
+          <link rel="manifest" href="/manifest.json" />
+          <meta
+            name="description"
+            content="An app to manage fanbases and make money with it"
+          />
         </Head>
         <body>
           <Main />
