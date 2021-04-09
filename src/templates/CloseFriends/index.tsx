@@ -215,7 +215,7 @@ const CloseFriendsTemplate = () => {
               borderRadius={4}
               mb="4"
             >
-              <Text fontSize="x-large">Usuários</Text>
+              <Text fontSize="x-large">Assinantes</Text>
             </Box>
 
             <SimpleGrid
@@ -292,8 +292,10 @@ const CloseFriendsTemplate = () => {
                 <Tr>
                   <Th px={['4', '4', '4', '4']} color="gray.300" width="6"></Th>
                   <Th>Usuário</Th>
+
                   {isWideVersion && <Th>Data de cadastro</Th>}
                   {isWideVersion && <Th>Status</Th>}
+
                   <Th width="8"></Th>
                 </Tr>
               </Thead>
@@ -310,60 +312,7 @@ const CloseFriendsTemplate = () => {
                       </Text>
                     </Box>
                   </Td>
-                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
-                  {isWideVersion && <Td>Ativo</Td>}
-                  <Td>
-                    <Button
-                      as="a"
-                      pl={isWideVersion ? '' : '5'}
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="pink"
-                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    >
-                      {isWideVersion && 'Editar'}
-                    </Button>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme="pink" />
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight="bold">Andre Melo</Text>
-                      <Text fontSize="sm" color="gray.300">
-                        andre@afmelo.com
-                      </Text>
-                    </Box>
-                  </Td>
-                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
-                  {isWideVersion && <Td>Ativo</Td>}
-                  <Td>
-                    <Button
-                      as="a"
-                      pl={isWideVersion ? '' : '5'}
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="pink"
-                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    >
-                      {isWideVersion && 'Editar'}
-                    </Button>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme="pink" />
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight="bold">Andre Melo</Text>
-                      <Text fontSize="sm" color="gray.300">
-                        andre@afmelo.com
-                      </Text>
-                    </Box>
-                  </Td>
+
                   {isWideVersion && <Td>04 de Abril, 2021</Td>}
                   {isWideVersion && <Td>Ativo</Td>}
 
@@ -374,6 +323,67 @@ const CloseFriendsTemplate = () => {
                       size="sm"
                       fontSize="sm"
                       colorScheme="pink"
+                      cursor="pointer"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion && 'Editar'}
+                    </Button>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td px={['4', '4', '6']}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Box>
+                      <Text fontWeight="bold">Andre Melo</Text>
+                      <Text fontSize="sm" color="gray.300">
+                        andre@afmelo.com
+                      </Text>
+                    </Box>
+                  </Td>
+
+                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
+                  {isWideVersion && <Td>Ativo</Td>}
+
+                  <Td>
+                    <Button
+                      as="a"
+                      pl={isWideVersion ? '' : '5'}
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="pink"
+                      cursor="pointer"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion && 'Editar'}
+                    </Button>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td px={['4', '4', '6']}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Box>
+                      <Text fontWeight="bold">Andre Melo</Text>
+                      <Text fontSize="sm" color="gray.300">
+                        andre@afmelo.com
+                      </Text>
+                    </Box>
+                  </Td>
+
+                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
+                  {isWideVersion && <Td>Ativo</Td>}
+
+                  <Td>
+                    <Button
+                      as="a"
+                      pl={isWideVersion ? '' : '5'}
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="pink"
+                      cursor="pointer"
                       leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
                     >
                       {isWideVersion && 'Editar'}
