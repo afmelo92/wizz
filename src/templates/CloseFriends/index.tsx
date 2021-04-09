@@ -10,10 +10,19 @@ import {
   Input,
   useBreakpointValue,
   Stack,
-  Select
+  Select,
+  Icon,
+  Table,
+  Th,
+  Tr,
+  Td,
+  Thead,
+  Tbody,
+  Checkbox
 } from '@chakra-ui/react'
 import { Sidebar } from '../../components/Sidebar'
 import { Header } from '../../components/Header'
+import { RiPencilLine } from 'react-icons/ri'
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
@@ -94,13 +103,12 @@ const CloseFriendsTemplate = () => {
             {!instagramSessionId && (
               <Flex
                 direction={isWideVersion ? 'row' : 'column'}
-                p={['2', '4']}
-                px="4"
+                py={['8', '4']}
+                px={['6', '8']}
                 w="100%"
                 bg="gray.700"
                 borderRadius={4}
                 mb="4"
-                py={['8', '4']}
                 justifyContent={isWideVersion ? 'space-between' : 'center'}
                 align="center"
                 textAlign="center"
@@ -116,6 +124,7 @@ const CloseFriendsTemplate = () => {
                     _hover={{ background: 'pink.700' }}
                     cursor="pointer"
                     width={['100%', '300px']}
+                    mt={['8', '0']}
                   >
                     Fazer login no Instagram
                   </Button>
@@ -199,8 +208,14 @@ const CloseFriendsTemplate = () => {
               </Box>
             </SimpleGrid>
 
-            <Box p={['2', '4']} bg="gray.700" borderRadius={4} mb="4">
-              <Text fontSize="x-large">Pesquisa</Text>
+            <Box
+              py={['2', '4']}
+              px={['6', '8']}
+              bg="gray.700"
+              borderRadius={4}
+              mb="4"
+            >
+              <Text fontSize="x-large">Usuários</Text>
             </Box>
 
             <SimpleGrid
@@ -271,6 +286,102 @@ const CloseFriendsTemplate = () => {
                 </Stack>
               </Box>
             </SimpleGrid>
+
+            <Table colorScheme="whiteAlpha">
+              <Thead>
+                <Tr>
+                  <Th px={['4', '4', '4', '4']} color="gray.300" width="6"></Th>
+                  <Th>Usuário</Th>
+                  {isWideVersion && <Th>Data de cadastro</Th>}
+                  {isWideVersion && <Th>Status</Th>}
+                  <Th width="8"></Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td px={['4', '4', '6']}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Box>
+                      <Text fontWeight="bold">Andre Melo</Text>
+                      <Text fontSize="sm" color="gray.300">
+                        andre@afmelo.com
+                      </Text>
+                    </Box>
+                  </Td>
+                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
+                  {isWideVersion && <Td>Ativo</Td>}
+                  <Td>
+                    <Button
+                      as="a"
+                      pl={isWideVersion ? '' : '5'}
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="pink"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion && 'Editar'}
+                    </Button>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td px={['4', '4', '6']}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Box>
+                      <Text fontWeight="bold">Andre Melo</Text>
+                      <Text fontSize="sm" color="gray.300">
+                        andre@afmelo.com
+                      </Text>
+                    </Box>
+                  </Td>
+                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
+                  {isWideVersion && <Td>Ativo</Td>}
+                  <Td>
+                    <Button
+                      as="a"
+                      pl={isWideVersion ? '' : '5'}
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="pink"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion && 'Editar'}
+                    </Button>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td px={['4', '4', '6']}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Box>
+                      <Text fontWeight="bold">Andre Melo</Text>
+                      <Text fontSize="sm" color="gray.300">
+                        andre@afmelo.com
+                      </Text>
+                    </Box>
+                  </Td>
+                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
+                  {isWideVersion && <Td>Ativo</Td>}
+
+                  <Td>
+                    <Button
+                      as="a"
+                      pl={isWideVersion ? '' : '5'}
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="pink"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion && 'Editar'}
+                    </Button>
+                  </Td>
+                </Tr>
+              </Tbody>
+            </Table>
           </Flex>
         </Flex>
       </Flex>

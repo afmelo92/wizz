@@ -16,6 +16,7 @@ const options = {
     },
     foreColor: theme.colors.gray[500]
   },
+  colors: ['#D53F8C'],
   grid: {
     show: false
   },
