@@ -22,7 +22,7 @@ const HomeTemplate = () => {
               sua adiência
             </Text>
           </Heading>
-          <Text color={'gray.50'} fontSize="2xl" text>
+          <Text color={'gray.50'} fontSize="2xl">
             Monetize seu conteúdo fidelizando seus clientes com nossas
             ferramentas: Gestor de close friends, grupo de Telegram, e-mail
             marketing, sms e muito mais!
