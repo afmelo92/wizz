@@ -13,9 +13,12 @@ import {
   Divider
 } from '@chakra-ui/react'
 import { signIn } from 'next-auth/client'
+import { useRouter } from 'next/router'
 import { FaGoogle } from 'react-icons/fa'
 
 export default function SignInTemplate() {
+  const routes = useRouter()
+  const { push, query } = routes
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} minW="450px">
@@ -70,7 +73,14 @@ export default function SignInTemplate() {
                   background="#4285F4"
                   leftIcon={<FaGoogle />}
                   _hover={{ background: '#1a3562' }}
-                  onClick={() => signIn('google')}
+                  onClick={() =>
+                    signIn('google', {
+                      redirect: false,
+                      callbackUrl: `${window.location.origin}${
+                        query?.callbackUrl || ''
+                      }`
+                    })
+                  }
                 >
                   Login com Google
                 </Button>

@@ -14,13 +14,11 @@ import { SearchBox } from './SearchBox'
 import { Logo } from './Logo'
 import { useSidebarDrawer } from 'contexts/SidebarDrawerContext'
 import { RiMenuLine } from 'react-icons/ri'
-import { signIn, useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 
 export function Header() {
   const { onOpen } = useSidebarDrawer()
   const [session] = useSession()
-
-  console.log(session)
 
   const isWideVersion = useBreakpointValue({
     base: false,
