@@ -18,7 +18,15 @@ import { FaGoogle } from 'react-icons/fa'
 
 export default function SignInTemplate() {
   const routes = useRouter()
-  const { push, query } = routes
+  const { query } = routes
+
+  const handleSubmit = async () => {
+    await signIn('google', {
+      redirect: false,
+      callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
+    })
+  }
+
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} minW="450px">
@@ -73,14 +81,7 @@ export default function SignInTemplate() {
                   background="#4285F4"
                   leftIcon={<FaGoogle />}
                   _hover={{ background: '#1a3562' }}
-                  onClick={() =>
-                    signIn('google', {
-                      redirect: false,
-                      callbackUrl: `${window.location.origin}${
-                        query?.callbackUrl || ''
-                      }`
-                    })
-                  }
+                  onClick={handleSubmit}
                 >
                   Login com Google
                 </Button>
