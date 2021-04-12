@@ -8,8 +8,12 @@ import {
   Stack,
   Link,
   Button,
-  Heading
+  Heading,
+  VStack,
+  Divider
 } from '@chakra-ui/react'
+import { signIn } from 'next-auth/client'
+import { FaGoogle } from 'react-icons/fa'
 
 export default function SignInTemplate() {
   return (
@@ -49,15 +53,28 @@ export default function SignInTemplate() {
                 <Checkbox colorScheme="pink">Lembrar</Checkbox>
                 <Link color={'gray.50'}>Esqueceu a senha?</Link>
               </Stack>
-              <Button
-                bg={'pink.500'}
-                color={'white'}
-                _hover={{
-                  bg: 'pink.700'
-                }}
-              >
-                Entrar
-              </Button>
+              <VStack spacing={10}>
+                <Button
+                  bg={'pink.500'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'pink.700'
+                  }}
+                  width="100%"
+                >
+                  Entrar
+                </Button>
+                <Divider />
+                <Button
+                  width="100%"
+                  background="#4285F4"
+                  leftIcon={<FaGoogle />}
+                  _hover={{ background: '#1a3562' }}
+                  onClick={() => signIn('google')}
+                >
+                  Login com Google
+                </Button>
+              </VStack>
             </Stack>
           </Stack>
         </Box>

@@ -14,16 +14,18 @@ import { SearchBox } from './SearchBox'
 import { Logo } from './Logo'
 import { useSidebarDrawer } from 'contexts/SidebarDrawerContext'
 import { RiMenuLine } from 'react-icons/ri'
+import { signIn, useSession } from 'next-auth/client'
 
 export function Header() {
   const { onOpen } = useSidebarDrawer()
+  const [session] = useSession()
+
+  console.log(session)
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
-
-  const user = true
 
   return (
     <Flex
@@ -50,7 +52,7 @@ export function Header() {
 
       <Logo />
 
-      {!user && (
+      {!session && (
         <HStack spacing="24px" ml="-180px">
           <Box
             as="a"
@@ -87,9 +89,9 @@ export function Header() {
         </HStack>
       )}
 
-      {isWideVersion && user && <SearchBox />}
+      {isWideVersion && session && <SearchBox />}
 
-      {user ? (
+      {session ? (
         <Flex align="center" ml="auto">
           <NotificationsNav />
           <Profile showProfileData={isWideVersion} />

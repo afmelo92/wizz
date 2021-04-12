@@ -249,7 +249,7 @@ const CloseFriendsTemplate = () => {
                   Status
                 </Text>
                 <Stack spacing={3}>
-                  <Select size="md" option backgroundColor="gray.800">
+                  <Select size="md" backgroundColor="gray.800">
                     <option
                       value="option1"
                       style={{ backgroundColor: '#1F2029' }}
