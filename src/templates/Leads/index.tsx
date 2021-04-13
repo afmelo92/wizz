@@ -1,18 +1,11 @@
 import { Header } from 'components/Header'
 import { Sidebar } from 'components/Sidebar'
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  FormHelperText,
-  VStack,
-  Button,
-  Textarea
-} from '@chakra-ui/react'
+import { Flex, VStack, Button } from '@chakra-ui/react'
 import * as yup from 'yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Input } from 'components/Input'
+import { Textarea } from 'components/Textarea'
 
 type LeadFormData = {
   exhibition_name: string
@@ -49,30 +42,37 @@ export default function LeadsTemplate() {
             mx="auto"
             w="500px"
             p="8"
+            as="form"
+            onSubmit={handleSubmit(handleSignIn)}
           >
-            <FormControl id="exhibition_name">
-              <FormLabel>Nome de exibição</FormLabel>
-              <Input
-                type="text"
-                placeholder="Nome"
-                focusBorderColor="pink.500"
-              />
-              <FormHelperText color="gray.200">
-                Esse nome estará em seus convites de close friends.
-              </FormHelperText>
-            </FormControl>
-            <FormControl id="custom_text">
-              <FormLabel>Mensagem personalizada</FormLabel>
-              <Textarea focusBorderColor="pink.500" placeholder="Mensagem" />
-              <FormHelperText color="gray.200">
-                Envie uma mensagem curta personalizada em seu convite de até 180
-                caracteres.
-              </FormHelperText>
-            </FormControl>
+            <Input
+              name="exhibition_name"
+              type="text"
+              label="Nome"
+              help="Esse nome estará em seus convites de close friends."
+              placeholder="Nome"
+              focusBorderColor="pink.500"
+              {...register('exhibition_name')}
+              error={formState.errors.exhibition_name}
+            />
+
+            <Textarea
+              name="custom_text"
+              label="Mensagem personalizada"
+              help="Envie uma mensagem curta personalizada em seu convite de até 180
+              caracteres."
+              focusBorderColor="pink.500"
+              placeholder="Mensagem"
+              {...register('custom_text')}
+              error={formState.errors.custom_text}
+            />
+
             <Button
               w="100%"
               background="pink.500"
               _hover={{ backgroundColor: 'pink.700' }}
+              type="submit"
+              isLoading={formState.isSubmitting}
             >
               Salvar
             </Button>
