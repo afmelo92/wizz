@@ -21,8 +21,8 @@ export default NextAuth({
   ],
   callbacks: {
     async session(session: GenericObject, token: GenericObject) {
-      console.log('session (session) :::', session)
-      console.log('token (session) :::', token)
+      // console.log('session (session) :::', session)
+      // console.log('token (session) :::', token)
 
       try {
         const userFaunaData =

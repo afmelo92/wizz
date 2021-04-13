@@ -6,6 +6,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Input'
 import { Textarea } from 'components/Textarea'
+import { api } from 'services/api'
+import React from 'react'
 
 type LeadFormData = {
   exhibition_name: string
@@ -18,14 +20,26 @@ const leadFormSchema = yup.object().shape({
 })
 
 export default function LeadsTemplate() {
-  const { register, handleSubmit, formState } = useForm<LeadFormData>({
+  const { register, handleSubmit, formState, reset } = useForm<LeadFormData>({
     resolver: yupResolver(leadFormSchema)
   })
 
   console.log(formState.errors)
 
-  const handleSignIn: SubmitHandler<LeadFormData> = values => {
+  const handleLeadForm: SubmitHandler<LeadFormData> = async (
+    values,
+    event: React.FormEvent
+  ) => {
+    event.preventDefault()
     console.log(values)
+
+    try {
+      const response = await api.post('/leads', values)
+      console.log(response.data)
+      reset({ custom_text: '', exhibition_name: '' })
+    } catch (err) {
+      console.log('error:::', err)
+    }
   }
 
   return (
@@ -43,7 +57,7 @@ export default function LeadsTemplate() {
             w="500px"
             p="8"
             as="form"
-            onSubmit={handleSubmit(handleSignIn)}
+            onSubmit={handleSubmit(handleLeadForm)}
           >
             <Input
               name="exhibition_name"
