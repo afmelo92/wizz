@@ -1,3 +1,4 @@
+import NextNprogress from 'nextjs-progressbar'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ChakraProvider } from '@chakra-ui/react'
@@ -16,6 +17,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </SidebarDrawerProvider>
       </NextAuthProvider>
+      <NextNprogress
+        color="#D53F8C"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={5}
+      />
     </ChakraProvider>
   )
 }

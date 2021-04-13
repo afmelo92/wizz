@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { GenericObject } from 'next-auth/_utils'
 
 import { fauna } from 'services/fauna'
 import { query as q } from 'faunadb'
@@ -19,8 +20,20 @@ export default NextAuth({
     })
   ],
   callbacks: {
-    async session(session) {
-      return session
+    async session(session: GenericObject, token: GenericObject) {
+      console.log('session (session) :::', session)
+      console.log('token (session) :::', token)
+
+      try {
+        const userFaunaData =
+          (await fauna.query(
+            q.Get(q.Match(q.Index('user_by_email'), q.Casefold(token.email)))
+          )) || null
+
+        return { ...session, userData: userFaunaData }
+      } catch (err) {
+        return session
+      }
     },
     async signIn(user) {
       const { email } = user
@@ -43,5 +56,24 @@ export default NextAuth({
         return false
       }
     }
+    // callback jwt é necessario aqpenas para quando se possui um database
+    // async jwt(token: GenericObject, account: GenericObject, user) {
+    //   if (account) {
+    //     token.provider = account.provider
+    //     token.id = account.id
+    //   }
+
+    //   console.log('account (jwt):::', account)
+
+    //   if (user) {
+    //     token.id = user.id
+    //     token.jwt = user.idToken
+    //     token.accessToken = user.accessToken
+    //   }
+
+    //   console.log('user (jwt):::', user)
+
+    //   return token
+    // }
   }
 })

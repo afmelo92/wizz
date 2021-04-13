@@ -20,7 +20,7 @@ export default function SignInTemplate() {
   const routes = useRouter()
   const { query } = routes
 
-  const handleSubmit = async () => {
+  const handleGoogleLogin = async () => {
     await signIn('google', {
       redirect: false,
       callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
@@ -81,7 +81,7 @@ export default function SignInTemplate() {
                   background="#4285F4"
                   leftIcon={<FaGoogle />}
                   _hover={{ background: '#1a3562' }}
-                  onClick={handleSubmit}
+                  onClick={handleGoogleLogin}
                 >
                   Login com Google
                 </Button>
