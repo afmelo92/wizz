@@ -1,23 +1,18 @@
 import { Header } from 'components/Header'
 import { Sidebar } from 'components/Sidebar'
 import { Flex, VStack, Button } from '@chakra-ui/react'
-import * as yup from 'yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Input'
 import { Textarea } from 'components/Textarea'
 import { api } from 'services/api'
 import React from 'react'
+import { leadFormSchema } from 'utils/validations'
 
 type LeadFormData = {
   exhibition_name: string
   custom_text: string
 }
-
-const leadFormSchema = yup.object().shape({
-  exhibition_name: yup.string().required('Nome de exibição obrigatório'),
-  custom_text: yup.string().max(180, 'No máximo 180 caracteres')
-})
 
 export default function LeadsTemplate() {
   const { register, handleSubmit, formState, reset } = useForm<LeadFormData>({

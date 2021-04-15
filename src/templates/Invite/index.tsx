@@ -7,12 +7,12 @@ import {
   Text,
   Button
 } from '@chakra-ui/react'
-import * as yup from 'yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Input'
 import { api } from 'services/api'
 import { useRouter } from 'next/router'
+import { inviteFormSchema } from 'utils/validations'
 
 export type InviteTemplatePageProps = {
   slug: string
@@ -25,19 +25,6 @@ type InviteFormData = {
   subscriber_email: string
   subscriber_telegram: string
 }
-
-const inviteFormSchema = yup.object().shape({
-  subscriber_instagram: yup.string().required('Nome de exibição obrigatório'),
-  subscriber_email: yup
-    .string()
-    .email('Email inválido')
-    .required('Email obrigatório'),
-  subscriber_telegram: yup
-    .string()
-    .min(11, 'O formato deve ser 11 9 9999 9999')
-    .max(11, 'O formato deve ser 11 9 9999 9999')
-    .required('Telegram obrigatório')
-})
 
 export default function InviteTemplate({
   slug,
