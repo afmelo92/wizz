@@ -10,6 +10,10 @@ type User = {
   data: {
     email: string
     instagram?: string
+    invite: {
+      exhibition_name: string
+      custom_text: string
+    }
   }
 }
 
@@ -17,8 +21,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { exhibition_name, custom_text } = req.body
 
-    console.log('exhibition_name ::: ', exhibition_name)
-    console.log('custom_text ::: ', custom_text)
     const session = await getSession({ req })
 
     try {
@@ -32,11 +34,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
       )
 
-      console.log('FAUNA USER ::::', user)
       return res.status(200).json({ ok: true })
     } catch (err) {
       console.log(err)
-      return res.status(400).json({ error: 'Something went wrong' })
+      return res
+        .status(400)
+        .json({ error: 'Oops... Something went wrong. Try again later.' })
     }
   } else {
     res.setHeader('Allow', 'POST')

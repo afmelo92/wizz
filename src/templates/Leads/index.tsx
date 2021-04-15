@@ -31,11 +31,10 @@ export default function LeadsTemplate() {
     event: React.FormEvent
   ) => {
     event.preventDefault()
-    console.log(values)
 
     try {
-      const response = await api.post('/leads', values)
-      console.log(response.data)
+      await api.post('/leads', values)
+
       reset({ custom_text: '', exhibition_name: '' })
     } catch (err) {
       console.log('error:::', err)
