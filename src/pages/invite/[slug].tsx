@@ -3,23 +3,7 @@ import { fauna } from 'services/fauna'
 import { query as q } from 'faunadb'
 
 import InviteTemplate, { InviteTemplatePageProps } from 'templates/Invite'
-
-type Users = {
-  data: [
-    {
-      ref: string
-      ts: number
-      data: {
-        email: string
-        instagram?: string
-        invite?: {
-          exhibition_name: string
-          custom_text: string
-        }
-      }
-    }
-  ]
-}
+import { Users } from 'utils/types/faunaTypes'
 
 type User = {
   data: {
