@@ -28,6 +28,14 @@ const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
 
+const selectOptions = [
+  'Ativos',
+  'Cancelados',
+  'Vencidos',
+  'Importados',
+  'Pendentes'
+]
+
 const options = {
   chart: {
     toolbar: {
@@ -104,8 +112,8 @@ const CloseFriendsTemplate = () => {
             {!instagramSessionId && (
               <Flex
                 direction={isWideVersion ? 'row' : 'column'}
-                py={['8', '4']}
-                px={['6', '8']}
+                py={{ base: '8', lg: '4' }}
+                px={{ base: '6', lg: '8' }}
                 w="100%"
                 bg="gray.700"
                 borderRadius={4}
@@ -114,7 +122,7 @@ const CloseFriendsTemplate = () => {
                 align="center"
                 textAlign="center"
               >
-                <Text fontSize="md" mb={['20px', '0px']}>
+                <Text fontSize="md" mb={{ base: '20px', lg: '0px' }}>
                   Parece que você ainda não fez o login. Faça agora mesmo e
                   comece a gerenciar seus contatos.
                 </Text>
@@ -125,7 +133,7 @@ const CloseFriendsTemplate = () => {
                     _hover={{ background: 'pink.700' }}
                     cursor="pointer"
                     width={['100%', '300px']}
-                    mt={['8', '0']}
+                    mt={{ base: '8', lg: '0' }}
                   >
                     Fazer login no Instagram
                   </Button>
@@ -139,7 +147,12 @@ const CloseFriendsTemplate = () => {
               align="flex-start"
               mb="4"
             >
-              <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
+              <Box
+                p={{ base: '6', lg: '8' }}
+                bg="gray.800"
+                borderRadius={8}
+                pb="4"
+              >
                 <Text fontSize="lg" mb="4">
                   Inscritos da semana
                 </Text>
@@ -151,7 +164,7 @@ const CloseFriendsTemplate = () => {
                 />
               </Box>
 
-              <Box p={['6', '8']} bg="gray.800" borderRadius={8}>
+              <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
                 <Text fontSize="lg" mb="4">
                   Ativos
                 </Text>
@@ -163,7 +176,7 @@ const CloseFriendsTemplate = () => {
                 />
               </Box>
 
-              <Box p={['6', '8']} bg="gray.800" borderRadius={8}>
+              <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
                 <Text fontSize="lg" mb="4">
                   Cancelados
                 </Text>
@@ -174,7 +187,7 @@ const CloseFriendsTemplate = () => {
                   options={options}
                 />
               </Box>
-              <Box p={['6', '8']} bg="gray.800" borderRadius={8}>
+              <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
                 <Text fontSize="lg" mb="4">
                   Vencidos
                 </Text>
@@ -185,7 +198,7 @@ const CloseFriendsTemplate = () => {
                   options={options}
                 />
               </Box>
-              <Box p={['6', '8']} bg="gray.800" borderRadius={8}>
+              <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
                 <Text fontSize="lg" mb="4">
                   Pendentes
                 </Text>
@@ -196,7 +209,7 @@ const CloseFriendsTemplate = () => {
                   options={options}
                 />
               </Box>
-              <Box p={['6', '8']} bg="gray.800" borderRadius={8}>
+              <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
                 <Text fontSize="lg" mb="4">
                   Importados
                 </Text>
@@ -210,8 +223,8 @@ const CloseFriendsTemplate = () => {
             </SimpleGrid>
 
             <Box
-              py={['2', '4']}
-              px={['6', '8']}
+              py={{ base: '2', lg: '4' }}
+              px={{ base: '6', lg: '8' }}
               bg="gray.700"
               borderRadius={4}
               mb="4"
@@ -228,13 +241,13 @@ const CloseFriendsTemplate = () => {
               bg="gray.800"
               borderRadius={8}
             >
-              <Box p={['6', '8']}>
+              <Box p={{ base: '6', lg: '8' }}>
                 <Text fontSize="lg" mb="4" color="pink.400">
                   Nome, Instagram ou Email
                 </Text>
                 <Input focusBorderColor="pink.500" placeholder="Pesquisar..." />
               </Box>
-              <Box p={['6', '8']}>
+              <Box p={{ base: '6', lg: '8' }}>
                 <Text fontSize="lg" mb="4" color="pink.400">
                   Data de compra
                 </Text>
@@ -244,45 +257,21 @@ const CloseFriendsTemplate = () => {
                   placeholder="Pesquisar..."
                 />
               </Box>
-              <Box p={['6', '8']}>
+              <Box p={{ base: '6', lg: '8' }}>
                 <Text fontSize="lg" mb="4" color="pink.400">
                   Status
                 </Text>
                 <Stack spacing={3}>
                   <Select size="md" backgroundColor="gray.800">
-                    <option
-                      value="option1"
-                      style={{ backgroundColor: '#1F2029' }}
-                    >
-                      Ativos
-                    </option>
-                    <option
-                      value="option1"
-                      style={{
-                        backgroundColor: '#1F2029',
-                        borderRadius: 10
-                      }}
-                    >
-                      Cancelados
-                    </option>
-                    <option
-                      value="option1"
-                      style={{ backgroundColor: '#1F2029' }}
-                    >
-                      Vencidos
-                    </option>
-                    <option
-                      value="option1"
-                      style={{ backgroundColor: '#1F2029' }}
-                    >
-                      Pendentes
-                    </option>
-                    <option
-                      value="option1"
-                      style={{ backgroundColor: '#1F2029' }}
-                    >
-                      Importados
-                    </option>
+                    {selectOptions.map((option, index) => (
+                      <option
+                        key={option}
+                        value={option}
+                        style={{ backgroundColor: '#1F2029' }}
+                      >
+                        {option}
+                      </option>
+                    ))}
                   </Select>
                 </Stack>
               </Box>
@@ -291,7 +280,7 @@ const CloseFriendsTemplate = () => {
             <Table colorScheme="whiteAlpha">
               <Thead>
                 <Tr>
-                  <Th px={['4', '4', '4', '4']} color="gray.300" width="6"></Th>
+                  <Th px="4" color="gray.300" width="6"></Th>
                   <Th>Usuário</Th>
 
                   {isWideVersion && <Th>Data de cadastro</Th>}
@@ -331,69 +320,15 @@ const CloseFriendsTemplate = () => {
                     </Button>
                   </Td>
                 </Tr>
-                <Tr>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme="pink" />
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight="bold">Andre Melo</Text>
-                      <Text fontSize="sm" color="gray.300">
-                        andre@afmelo.com
-                      </Text>
-                    </Box>
-                  </Td>
-
-                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
-                  {isWideVersion && <Td>Ativo</Td>}
-
-                  <Td>
-                    <Button
-                      as="a"
-                      pl={isWideVersion ? '' : '5'}
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="pink"
-                      cursor="pointer"
-                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    >
-                      {isWideVersion && 'Editar'}
-                    </Button>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme="pink" />
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight="bold">Andre Melo</Text>
-                      <Text fontSize="sm" color="gray.300">
-                        andre@afmelo.com
-                      </Text>
-                    </Box>
-                  </Td>
-
-                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
-                  {isWideVersion && <Td>Ativo</Td>}
-
-                  <Td>
-                    <Button
-                      as="a"
-                      pl={isWideVersion ? '' : '5'}
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="pink"
-                      cursor="pointer"
-                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    >
-                      {isWideVersion && 'Editar'}
-                    </Button>
-                  </Td>
-                </Tr>
               </Tbody>
             </Table>
-            <Pagination />
+            <Pagination
+              totalCountOfRegisters={20}
+              currentPage={1}
+              onPageChange={() => {
+                console.log('hello')
+              }}
+            />
           </Flex>
         </Flex>
       </Flex>
