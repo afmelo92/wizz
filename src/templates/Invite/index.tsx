@@ -46,7 +46,11 @@ export default function InviteTemplate({
     console.log(values)
 
     try {
-      await api.post('/subscribers', { ...values, slug })
+      await api.post('/subscribers', {
+        ...values,
+        slug,
+        subscribed_at: new Date()
+      })
 
       reset({
         subscriber_instagram: '',

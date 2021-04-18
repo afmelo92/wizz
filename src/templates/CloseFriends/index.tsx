@@ -24,6 +24,7 @@ import { Sidebar } from 'components/Sidebar'
 import { Header } from 'components/Header'
 import { RiPencilLine } from 'react-icons/ri'
 import Pagination from 'components/Pagination'
+import { Subscriber } from 'utils/types/faunaTypes'
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
@@ -94,7 +95,22 @@ const series6 = [
   { name: 'series6', data: [3215, 3215, 3215, 3215, 3215, 3215, 3215] }
 ]
 
-const CloseFriendsTemplate = () => {
+export type CloseFriendsTemplatePageProps = {
+  subscribers: {
+    subscriptions: {
+      influencer: string
+      subscribed_at: string
+    }[]
+    subscriber_instagram: string
+    subscriber_telegram: string
+    subscriber_email: string
+    status: string
+  }[]
+}
+
+const CloseFriendsTemplate = ({
+  subscribers
+}: CloseFriendsTemplatePageProps) => {
   const instagramSessionId = false
 
   const isWideVersion = useBreakpointValue({
@@ -263,7 +279,7 @@ const CloseFriendsTemplate = () => {
                 </Text>
                 <Stack spacing={3}>
                   <Select size="md" backgroundColor="gray.800">
-                    {selectOptions.map((option, index) => (
+                    {selectOptions.map(option => (
                       <option
                         key={option}
                         value={option}
@@ -290,40 +306,44 @@ const CloseFriendsTemplate = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td px={['4', '4', '6']}>
-                    <Checkbox colorScheme="pink" />
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight="bold">Andre Melo</Text>
-                      <Text fontSize="sm" color="gray.300">
-                        andre@afmelo.com
-                      </Text>
-                    </Box>
-                  </Td>
-
-                  {isWideVersion && <Td>04 de Abril, 2021</Td>}
-                  {isWideVersion && <Td>Ativo</Td>}
-
-                  <Td>
-                    <Button
-                      as="a"
-                      pl={isWideVersion ? '' : '5'}
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="pink"
-                      cursor="pointer"
-                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    >
-                      {isWideVersion && 'Editar'}
-                    </Button>
-                  </Td>
-                </Tr>
+                {subscribers.map(sub => (
+                  <Tr key={sub.subscriber_instagram}>
+                    <Td px={['4', '4', '6']}>
+                      <Checkbox colorScheme="pink" />
+                    </Td>
+                    <Td>
+                      <Box>
+                        <Text fontWeight="bold">
+                          {sub.subscriber_instagram}
+                        </Text>
+                        <Text fontSize="sm" color="gray.300">
+                          {sub.subscriber_email}
+                        </Text>
+                      </Box>
+                    </Td>
+                    {isWideVersion && (
+                      <Td>{sub.subscriptions[0].subscribed_at}</Td>
+                    )}
+                    {isWideVersion && <Td>{sub.status}</Td>}
+                    <Td>
+                      <Button
+                        as="a"
+                        pl={isWideVersion ? '' : '5'}
+                        size="sm"
+                        fontSize="sm"
+                        colorScheme="pink"
+                        cursor="pointer"
+                        leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                      >
+                        {isWideVersion && 'Editar'}
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
             <Pagination
-              totalCountOfRegisters={20}
+              totalCountOfRegisters={subscribers.length}
               currentPage={1}
               onPageChange={() => {
                 console.log('hello')

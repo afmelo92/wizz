@@ -3,18 +3,7 @@ import { fauna } from 'services/fauna'
 import { query as q } from 'faunadb'
 
 import InviteTemplate, { InviteTemplatePageProps } from 'templates/Invite'
-import { Users } from 'utils/types/faunaTypes'
-
-type User = {
-  data: {
-    email: string
-    instagram?: string
-    invite?: {
-      exhibition_name: string
-      custom_text: string
-    }
-  }
-}
+import { Users, User } from 'utils/types/faunaTypes'
 
 export default function InviteDynamicPage(props: InviteTemplatePageProps) {
   return <InviteTemplate {...props} />

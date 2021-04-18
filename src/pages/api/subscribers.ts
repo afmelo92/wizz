@@ -8,9 +8,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       subscriber_instagram,
       subscriber_email,
       subscriber_telegram,
+      subscribed_at,
       slug
     } = req.body
-
     try {
       const subscriber = await fauna.query(
         q.If(
@@ -24,27 +24,43 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           ),
           q.Create(q.Collection('subscribers'), {
             data: {
-              subscriptions: [slug],
               subscriber_instagram,
               subscriber_telegram,
-              subscriber_email
+              subscriber_email,
+              status: 'active',
+              subscriptions: [{ influencer: slug, subscribed_at }]
             }
           }),
           // Existe subscriber
           q.If(
             // Checa se ja está inscrito nesse cf
-            q.Not(
-              q.ContainsValue(
-                slug,
-                q.Select(
-                  ['data', 'subscriptions'],
-                  q.Get(
-                    q.Match(
-                      q.Index('subscriber_by_instagram'),
-                      q.Casefold(subscriber_instagram)
+            q.IsEmpty(
+              q.Filter(
+                q.Map(
+                  q.Select(
+                    ['data', 'subscriptions'],
+                    q.Get(
+                      q.Match(
+                        q.Index('subscriber_by_instagram'),
+                        q.Casefold(subscriber_instagram)
+                      )
+                    )
+                  ),
+                  q.Lambda(
+                    'item',
+                    q.If(
+                      q.ContainsValue(slug, q.Var('item')),
+                      q.Get(
+                        q.Match(
+                          q.Index('subscriber_by_instagram'),
+                          q.Casefold(subscriber_instagram)
+                        )
+                      ),
+                      true
                     )
                   )
-                )
+                ),
+                q.Lambda('x', q.Not(q.IsBoolean(q.Var('x'))))
               )
             ),
             // Update no subscriber caso não seja inscrito
@@ -63,20 +79,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               ),
               {
                 data: {
-                  subscriber_info: {
-                    subscriptions: q.Append(
-                      slug,
-                      q.Select(
-                        ['data', 'subscriptions'],
-                        q.Get(
-                          q.Match(
-                            q.Index('subscriber_by_instagram'),
-                            q.Casefold(subscriber_instagram)
-                          )
+                  subscriptions: q.Append(
+                    { influencer: slug, subscribed_at },
+                    q.Select(
+                      ['data', 'subscriptions'],
+                      q.Get(
+                        q.Match(
+                          q.Index('subscriber_by_instagram'),
+                          q.Casefold(subscriber_instagram)
                         )
                       )
                     )
-                  }
+                  )
                 }
               }
             ),
