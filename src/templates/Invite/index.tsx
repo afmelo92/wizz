@@ -1,15 +1,8 @@
-import {
-  Container,
-  Flex,
-  VStack,
-  Avatar,
-  Box,
-  Text,
-  Button
-} from '@chakra-ui/react'
+import { Container, Flex, VStack, Avatar, Box, Text } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Input'
+import { SubscribeButton } from 'components/SubscribeButton'
 import { api } from 'services/api'
 import { useRouter } from 'next/router'
 import { inviteFormSchema } from 'utils/validations'
@@ -18,6 +11,7 @@ export type InviteTemplatePageProps = {
   slug: string
   exhibition_name: string
   custom_text: string
+  subscription_price: string
 }
 
 type InviteFormData = {
@@ -29,7 +23,8 @@ type InviteFormData = {
 export default function InviteTemplate({
   slug,
   custom_text,
-  exhibition_name
+  exhibition_name,
+  subscription_price
 }: InviteTemplatePageProps) {
   const router = useRouter()
   const { register, handleSubmit, formState, reset } = useForm<InviteFormData>({
@@ -48,6 +43,7 @@ export default function InviteTemplate({
     try {
       await api.post('/subscribers', {
         ...values,
+        subscriber_telegram: values.subscriber_telegram.replace(/\D/g, ''),
         slug,
         subscribed_at: new Date()
       })
@@ -146,7 +142,7 @@ export default function InviteTemplate({
             error={formState.errors.subscriber_telegram}
           />
 
-          <Button
+          <SubscribeButton
             background="pink.500"
             _hover={{ backgroundColor: 'pink.700' }}
             w="100%"
@@ -155,8 +151,8 @@ export default function InviteTemplate({
             type="submit"
             isLoading={formState.isSubmitting}
           >
-            Assinar
-          </Button>
+            Assinar - {subscription_price}
+          </SubscribeButton>
         </VStack>
       </Flex>
     </Container>

@@ -35,7 +35,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       slug: user.data.instagram,
       exhibition_name: user.data.invite?.exhibition_name || 'default',
-      custom_text: user.data.invite?.custom_text || 'default custom text'
+      custom_text: user.data.invite?.custom_text || 'default custom text',
+      subscription_price:
+        new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(user.data.invite?.subscription_price / 100) || 0
     }
   }
 }

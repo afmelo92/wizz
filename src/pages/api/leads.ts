@@ -6,7 +6,7 @@ import { User } from 'utils/types/faunaTypes'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { exhibition_name, custom_text } = req.body
+    const { exhibition_name, custom_text, subscription_price } = req.body
 
     const session = await getSession({ req })
 
@@ -17,7 +17,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       await fauna.query(
         q.Update(q.Ref(q.Collection('users'), user.ref.id), {
-          data: { invite: { exhibition_name, custom_text } }
+          data: {
+            invite: {
+              exhibition_name,
+              custom_text,
+              subscription_price: q.ToNumber(subscription_price)
+            }
+          }
         })
       )
 

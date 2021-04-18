@@ -265,7 +265,7 @@ const CloseFriendsTemplate = ({
               </Box>
               <Box p={{ base: '6', lg: '8' }}>
                 <Text fontSize="lg" mb="4" color="pink.400">
-                  Data de compra
+                  Data de cadastro
                 </Text>
                 <Input
                   type="date"

@@ -4,9 +4,11 @@ export type Users = {
       data: {
         email: string
         instagram?: string
+        verified?: boolean
         invite?: {
           exhibition_name: string
           custom_text: string
+          subscription_price?: number
         }
       }
     }
@@ -20,9 +22,11 @@ export type User = {
   data: {
     email: string
     instagram?: string
-    invite: {
+    verified?: boolean
+    invite?: {
       exhibition_name: string
       custom_text: string
+      subscription_price?: number
     }
   }
 }

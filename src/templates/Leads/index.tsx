@@ -26,11 +26,15 @@ export type LeadTemplateProps = {
 type LeadFormData = {
   exhibition_name: string
   custom_text: string
+  subscription_price: string
 }
 
 export default function LeadsTemplate({ session }: LeadTemplateProps) {
   const { userData } = session
   const [previewName, setpreviewName] = useState(userData.data.instagram)
+  const [previewPrice, setpreviewPrice] = useState(
+    userData.data.invite.subscription_price
+  )
   const [previewText, setpreviewText] = useState(
     'Texto exemplo de apresentação inicial'
   )
@@ -52,9 +56,23 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
     event.preventDefault()
 
     try {
-      await api.post('/leads', values)
+      if (userData.data.verified) {
+        await api.post('/leads', {
+          ...values,
+          subscription_price: values.subscription_price.replace(/\D/g, '')
+        })
 
-      reset({ custom_text: '', exhibition_name: '' })
+        reset({
+          custom_text: '',
+          exhibition_name: '',
+          subscription_price: ''
+        })
+        return
+      }
+
+      throw new Error(
+        'You are not a verified user. Please check config section at the sidebar.'
+      )
     } catch (err) {
       console.log('error:::', err)
     }
@@ -82,7 +100,6 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
               w="500px"
               p="8"
               h="100%"
-              maxH="550px"
               as="form"
               onSubmit={handleSubmit(handleLeadForm)}
             >
@@ -108,7 +125,19 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
                 {...register('custom_text')}
                 error={formState.errors.custom_text}
                 onChange={e => setpreviewText(e.currentTarget.value)}
-                maxH="160px"
+                maxH="208px"
+              />
+
+              <Input
+                name="subscription_price"
+                type="text"
+                label="Mensalidade"
+                help="Esse valor será cobrado mensalmente em reais de cara seguidor. Apenas números."
+                placeholder="50,00"
+                focusBorderColor="pink.500"
+                {...register('subscription_price')}
+                error={formState.errors.subscription_price}
+                onChange={e => setpreviewPrice(e.currentTarget.value)}
               />
 
               <Button
@@ -160,29 +189,37 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
                   @{userData.data.instagram}
                 </Text>
               </Box>
-              <Box>
+              <Box maxW="420px">
                 <Text fontSize={{ base: 'xs', lg: 'sm' }} textAlign="center">
                   {previewText}
                 </Text>
               </Box>
 
               <Input
-                name="preview_name"
+                name="subscriber_instagram_preview"
                 type="text"
-                label="Nome"
-                help="Esse nome estará em seus convites de close friends."
-                placeholder="Nome"
+                label="Seu Instagram"
+                help="Apenas o nome sem @"
+                placeholder="Nome do seguidor"
                 focusBorderColor="pink.500"
                 isDisabled
               />
 
-              <Textarea
-                name="custom_text"
-                label="Mensagem personalizada"
-                help="Envie uma mensagem curta personalizada em seu convite de até 180
-              caracteres."
+              <Input
+                name="subscriber_email_preview"
+                type="email"
+                label="Seu melhor e-mail"
+                placeholder="E-mail do seguidor"
                 focusBorderColor="pink.500"
-                placeholder="Mensagem"
+                isDisabled
+              />
+              <Input
+                name="subscriber_telegram_preview"
+                type="tel"
+                max="11"
+                label="Seu telegram"
+                placeholder="Telefone do seguidor"
+                focusBorderColor="pink.500"
                 isDisabled
               />
 
@@ -195,7 +232,12 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
                 type="button"
                 isDisabled
               >
-                Assinar
+                Assinar -
+                {' ' +
+                  new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                  }).format(previewPrice.replace(/\D/g, '') / 100)}
               </Button>
             </VStack>
           </Stack>
