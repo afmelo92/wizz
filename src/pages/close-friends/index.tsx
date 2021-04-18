@@ -19,8 +19,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
   )
 
-  // console.log('INFLUENCER ::: ', influencer)
-
   const rawSubs = await fauna.query<Subscribers>(
     q.Map(
       q.Paginate(
@@ -29,8 +27,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       q.Lambda('x', q.Get(q.Var('x')))
     )
   )
-
-  console.log('RAWSUBS :::', rawSubs.data)
 
   const subscribers = rawSubs.data.map(sub => ({
     subscriptions: sub.data.subscriptions.filter(item =>

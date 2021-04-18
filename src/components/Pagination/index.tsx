@@ -48,7 +48,13 @@ export default function Pagination({
       align="center"
     >
       <Box>
-        <strong>0</strong> - <strong>10</strong> de
+        <strong>{currentPage > 1 ? currentPage * 10 - 10 : 1}</strong> -{' '}
+        <strong>
+          {totalCountOfRegisters > 10
+            ? currentPage * 10
+            : totalCountOfRegisters}
+        </strong>{' '}
+        de
         <strong>{' ' + totalCountOfRegisters}</strong>
       </Box>
       <Stack direction="row" spacing="2">

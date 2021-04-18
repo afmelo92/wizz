@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext } from 'next'
-import LeadsTemplate from 'templates/Leads'
+import LeadsTemplate, { LeadTemplateProps } from 'templates/Leads'
 import protectedRoutes from 'utils/protected-routes'
 
-export default function LeadsPage() {
-  return <LeadsTemplate />
+export default function LeadsPage(props: LeadTemplateProps) {
+  return <LeadsTemplate {...props} />
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
