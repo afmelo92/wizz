@@ -1,6 +1,9 @@
 export type Users = {
   data: [
     {
+      ref: {
+        id: string
+      }
       data: {
         email: string
         instagram?: string
@@ -9,6 +12,8 @@ export type Users = {
           exhibition_name: string
           custom_text: string
           subscription_price?: number
+          price_id?: string
+          product_id?: string
         }
       }
     }
@@ -27,6 +32,8 @@ export type User = {
       exhibition_name: string
       custom_text: string
       subscription_price?: number
+      price_id?: string
+      product_id?: string
     }
   }
 }
@@ -35,28 +42,33 @@ export type Subscribers = {
   data: [
     {
       data: {
-        subscriptions: {
-          influencer: string
-          subscribed_at: string
-        }[]
         subscriber_instagram: string
         subscriber_telegram: string
         subscriber_email: string
-        status: string
+        stripe_customer_id: string
+        subscriptions: {
+          influencer: string
+          subscribed_at: string
+          status: string
+        }[]
       }
     }
   ]
 }
 
 export type Subscriber = {
+  ref: {
+    id: string
+  }
   data: {
-    subscriptions: {
-      influencer: string
-      subscribed_at: string
-    }[]
     subscriber_instagram: string
     subscriber_telegram: string
     subscriber_email: string
-    status: string
+    stripe_customer_id: string
+    subscriptions: {
+      influencer: string
+      subscribed_at: string
+      status: string
+    }[]
   }
 }

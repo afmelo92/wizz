@@ -100,11 +100,11 @@ export type CloseFriendsTemplatePageProps = {
     subscriptions: {
       influencer: string
       subscribed_at: string
+      status: string
     }[]
     subscriber_instagram: string
     subscriber_telegram: string
     subscriber_email: string
-    status: string
   }[]
 }
 
@@ -324,7 +324,7 @@ const CloseFriendsTemplate = ({
                     {isWideVersion && (
                       <Td>{sub.subscriptions[0].subscribed_at}</Td>
                     )}
-                    {isWideVersion && <Td>{sub.status}</Td>}
+                    {isWideVersion && <Td>{sub.subscriptions[0].status}</Td>}
                     <Td>
                       <Button
                         as="a"

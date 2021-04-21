@@ -4,8 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Input'
 import { SubscribeButton } from 'components/SubscribeButton'
 import { api } from 'services/api'
-import { useRouter } from 'next/router'
 import { inviteFormSchema } from 'utils/validations'
+import { getStripeJS } from 'services/stripe-js'
 
 export type InviteTemplatePageProps = {
   slug: string
@@ -26,8 +26,7 @@ export default function InviteTemplate({
   exhibition_name,
   subscription_price
 }: InviteTemplatePageProps) {
-  const router = useRouter()
-  const { register, handleSubmit, formState, reset } = useForm<InviteFormData>({
+  const { register, handleSubmit, formState } = useForm<InviteFormData>({
     resolver: yupResolver(inviteFormSchema)
   })
 
@@ -41,20 +40,18 @@ export default function InviteTemplate({
     console.log(values)
 
     try {
-      await api.post('/subscribers', {
+      const response = await api.post('/subscribe', {
         ...values,
         subscriber_telegram: values.subscriber_telegram.replace(/\D/g, ''),
         slug,
         subscribed_at: new Date()
       })
 
-      reset({
-        subscriber_instagram: '',
-        subscriber_email: '',
-        subscriber_telegram: ''
-      })
+      const { sessionId } = response.data
 
-      router.push(`https://www.instagram.com/${slug}/`)
+      const stripe = await getStripeJS()
+
+      await stripe.redirectToCheckout({ sessionId })
     } catch (err) {
       console.log('error:::', err)
     }

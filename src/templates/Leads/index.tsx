@@ -31,12 +31,16 @@ type LeadFormData = {
 
 export default function LeadsTemplate({ session }: LeadTemplateProps) {
   const { userData } = session
-  const [previewName, setpreviewName] = useState(userData.data.instagram)
-  const [previewPrice, setpreviewPrice] = useState(
-    userData.data.invite.subscription_price
+
+  const [previewName, setpreviewName] = useState(
+    userData.data.invite?.exhibition_name || ''
   )
+  const [previewPrice, setpreviewPrice] = useState(
+    String(userData.data.invite?.subscription_price || 0)
+  )
+
   const [previewText, setpreviewText] = useState(
-    'Texto exemplo de apresentação inicial'
+    userData.data.invite?.custom_text || ''
   )
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -44,7 +48,12 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
   })
 
   const { register, handleSubmit, formState, reset } = useForm<LeadFormData>({
-    resolver: yupResolver(leadFormSchema)
+    resolver: yupResolver(leadFormSchema),
+    defaultValues: {
+      custom_text: userData.data.invite?.custom_text || '',
+      exhibition_name: userData.data.invite?.exhibition_name || '',
+      subscription_price: userData.data.invite?.subscription_price || 0
+    }
   })
 
   console.log(formState.errors)
@@ -57,10 +66,15 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
 
     try {
       if (userData.data.verified) {
-        await api.post('/leads', {
+        const response = await api.post('/subscriptions', {
           ...values,
-          subscription_price: values.subscription_price.replace(/\D/g, '')
+          influencer: userData.data.instagram,
+          subscription_price: Number(
+            values.subscription_price.replace(/\D/g, '')
+          )
         })
+
+        console.log('RESPONSE:::', response.data)
 
         reset({
           custom_text: '',
@@ -237,7 +251,7 @@ export default function LeadsTemplate({ session }: LeadTemplateProps) {
                   new Intl.NumberFormat('pt-BR', {
                     style: 'currency',
                     currency: 'BRL'
-                  }).format(previewPrice.replace(/\D/g, '') / 100)}
+                  }).format(Number(previewPrice.replace(/\D/g, '')) / 100)}
               </Button>
             </VStack>
           </Stack>

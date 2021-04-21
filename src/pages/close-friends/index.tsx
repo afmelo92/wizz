@@ -19,7 +19,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
   )
 
-  const rawSubs = await fauna.query<Subscribers>(
+  const rawSubscribers = await fauna.query<Subscribers>(
     q.Map(
       q.Paginate(
         q.Match(q.Index('subscribers_by_influencer'), influencer.data.instagram)
@@ -28,34 +28,38 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     )
   )
 
-  const subscribers = rawSubs.data.map(sub => ({
+  const subscribers = rawSubscribers.data.map(sub => ({
     subscriptions: sub.data.subscriptions.filter(item =>
       item.influencer === influencer.data.instagram ? item : ''
     ),
     subscriber_instagram: sub.data.subscriber_instagram,
     subscriber_telegram: sub.data.subscriber_telegram,
-    subscriber_email: sub.data.subscriber_email,
-    status: sub.data.status.charAt(0).toUpperCase() + sub.data.status.slice(1)
+    subscriber_email: sub.data.subscriber_email
+  }))
+
+  const formattedSubscribers = subscribers.map(sub => ({
+    ...sub,
+    subscriptions: [
+      {
+        influencer: sub.subscriptions[0].influencer,
+        subscribed_at: new Date(
+          sub.subscriptions[0].subscribed_at
+        ).toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: 'long',
+          day: '2-digit'
+        }),
+        status:
+          sub.subscriptions[0].status.charAt(0).toUpperCase() +
+          sub.subscriptions[0].status.slice(1)
+      }
+    ]
   }))
 
   return {
     props: {
       session,
-      subscribers: subscribers.map(sub => ({
-        ...sub,
-        subscriptions: [
-          {
-            influencer: sub.subscriptions[0].influencer,
-            subscribed_at: new Date(
-              sub.subscriptions[0].subscribed_at
-            ).toLocaleDateString('pt-BR', {
-              year: 'numeric',
-              month: 'long',
-              day: '2-digit'
-            })
-          }
-        ]
-      }))
+      subscribers: formattedSubscribers
     }
   }
 }
