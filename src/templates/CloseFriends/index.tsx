@@ -97,14 +97,14 @@ const series6 = [
 
 export type CloseFriendsTemplatePageProps = {
   subscribers: {
-    subscriptions: {
-      influencer: string
-      subscribed_at: string
-      status: string
-    }[]
-    subscriber_instagram: string
-    subscriber_telegram: string
-    subscriber_email: string
+    status: string
+    created_at: string
+    subscriber: {
+      subscriber_instagram: string
+      subscriber_telegram: string
+      subscriber_email: string
+      stripe_customer_id: string
+    }
   }[]
 }
 
@@ -307,24 +307,22 @@ const CloseFriendsTemplate = ({
               </Thead>
               <Tbody>
                 {subscribers.map(sub => (
-                  <Tr key={sub.subscriber_instagram}>
+                  <Tr key={sub.subscriber.stripe_customer_id}>
                     <Td px={['4', '4', '6']}>
                       <Checkbox colorScheme="pink" />
                     </Td>
                     <Td>
                       <Box>
                         <Text fontWeight="bold">
-                          {sub.subscriber_instagram}
+                          {sub.subscriber.subscriber_instagram}
                         </Text>
                         <Text fontSize="sm" color="gray.300">
-                          {sub.subscriber_email}
+                          {sub.subscriber.subscriber_email}
                         </Text>
                       </Box>
                     </Td>
-                    {isWideVersion && (
-                      <Td>{sub.subscriptions[0].subscribed_at}</Td>
-                    )}
-                    {isWideVersion && <Td>{sub.subscriptions[0].status}</Td>}
+                    {isWideVersion && <Td>{sub.created_at}</Td>}
+                    {isWideVersion && <Td>{sub.status}</Td>}
                     <Td>
                       <Button
                         as="a"

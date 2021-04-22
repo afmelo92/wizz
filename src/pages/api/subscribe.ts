@@ -45,8 +45,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         q.Get(q.Match(q.Index('user_by_instagram'), q.Casefold(slug)))
       )
 
+      let customerId = subscriber.data.stripe_customer_id
+
       // Impede que o subscriber assine duas vezes o mesmo close friends
-      if (subscriber.data.stripe_customer_id) {
+      if (customerId) {
         const subscriptions = await stripe.subscriptions.list({
           customer: subscriber.data.stripe_customer_id
         })
@@ -63,8 +65,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           })
         }
       }
-
-      let customerId = subscriber.data.stripe_customer_id
 
       // Cria um customerId para novos subscribers caso não tenha
       if (!customerId) {

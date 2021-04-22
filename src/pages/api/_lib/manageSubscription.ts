@@ -29,6 +29,8 @@ export async function saveSubscription(
     price_id: subscription.items.data[0].price.id
   }
 
+  console.log('WEBHOOK SUBSCRIPTION DATA :::', subscriptionData)
+
   if (createAction) {
     await fauna.query(
       q.Create(q.Collection('subscriptions'), {

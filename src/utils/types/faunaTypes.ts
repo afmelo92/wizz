@@ -72,3 +72,18 @@ export type Subscriber = {
     }[]
   }
 }
+
+export type Subscriptions = {
+  data: Subscription[]
+}
+
+export type Subscription = {
+  status: string
+  created_at: string
+  subscriber: {
+    subscriber_instagram: string
+    subscriber_telegram: string
+    subscriber_email: string
+    stripe_customer_id: string
+  }
+}
