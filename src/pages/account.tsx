@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext } from 'next'
-import AccountTemplate from 'templates/Account'
+import AccountTemplate, { LeadTemplateProps } from 'templates/Account'
 import protectedRoutes from 'utils/protected-routes'
 
-export default function AccountPage() {
-  return <AccountTemplate />
+export default function AccountPage(props: LeadTemplateProps) {
+  return <AccountTemplate {...props} />
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

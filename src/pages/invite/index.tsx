@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import LeadsTemplate, { LeadTemplateProps } from 'templates/Leads'
 import protectedRoutes from 'utils/protected-routes'
 
-export default function LeadsPage(props: LeadTemplateProps) {
+export default function InvitePage(props: LeadTemplateProps) {
   return <LeadsTemplate {...props} />
 }
 

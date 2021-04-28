@@ -16,7 +16,7 @@ import { useState } from 'react'
 
 export default function InstagramTemplate() {
   const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const handleShowPassword = () => setShow(!show)
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -89,7 +89,7 @@ export default function InstagramTemplate() {
                 size="sm"
                 background=""
                 _hover={{}}
-                onClick={handleClick}
+                onClick={handleShowPassword}
                 color="gray.700"
               >
                 {show ? 'Esconder' : 'Mostrar'}

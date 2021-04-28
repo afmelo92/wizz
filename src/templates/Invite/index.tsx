@@ -1,4 +1,12 @@
-import { Container, Flex, VStack, Avatar, Box, Text } from '@chakra-ui/react'
+import {
+  Container,
+  Flex,
+  VStack,
+  Avatar,
+  Box,
+  Text,
+  Button
+} from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Input'
@@ -43,8 +51,7 @@ export default function InviteTemplate({
       const response = await api.post('/subscribe', {
         ...values,
         subscriber_telegram: values.subscriber_telegram.replace(/\D/g, ''),
-        slug,
-        subscribed_at: new Date()
+        slug
       })
 
       const { sessionId } = response.data
@@ -57,7 +64,10 @@ export default function InviteTemplate({
     }
   }
   return (
-    <Container maxW="1480px">
+    <Container maxW="1480px" position="relative">
+      <Button background="red" position="absolute" top={20}>
+        Quero me desinscrever
+      </Button>
       <Flex
         w="100%"
         maxWidth={1480}

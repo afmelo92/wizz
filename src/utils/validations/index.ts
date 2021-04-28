@@ -18,3 +18,22 @@ export const leadFormSchema = yup.object().shape({
   custom_text: yup.string().max(180, 'No máximo 180 caracteres'),
   subscription_price: yup.string().required('Preço da mensalidade obrigatório')
 })
+
+export const validateFiles = (value: FileList) => {
+  if (value?.length < 1) {
+    return 'Arquivos obrigatórios'
+  }
+  for (const file of Array.from(value)) {
+    if (!file.type.match(/image\/.*/gi)) {
+      return 'Apenas aquivos de imagem ou pdf são permitidos'
+    }
+  }
+  for (const file of Array.from(value)) {
+    const fsMb = file.size / (1024 * 1024)
+    const MAX_FILE_SIZE = 10
+    if (fsMb > MAX_FILE_SIZE) {
+      return 'Tamanho máximo do arquivo 10mb'
+    }
+  }
+  return true
+}
