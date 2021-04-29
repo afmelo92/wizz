@@ -7,6 +7,7 @@ import { useS3Upload } from 'hooks/use-s3-upload'
 import FileUpload from 'components/FileUpload'
 import { validateFiles } from 'utils/validations/index'
 import { Session } from 'next-auth/client'
+import { api } from 'services/api'
 
 export type LeadTemplateProps = {
   session: Session
@@ -24,20 +25,20 @@ export default function AccountTemplate({ session }: LeadTemplateProps) {
   const onSubmit = async data => {
     console.log('ONSUBMIT:::', data)
 
-    // if(data.length > 0) {
-
-    //    const { url } = await uploadToS3(data.instagram_print[0])
-    // }
-
-    // console.log('URL:::', url)
-
     try {
-      console.log('ENTROU')
-      console.log('OBJECT:::', Object.values(data))
       if (Object.keys(data).length > 0) {
-        Object.values(data).forEach(async item => {
-          const { url } = await uploadToS3(item[0], userData.data.email)
-          console.log('url:::', url)
+        Object.entries(data).forEach(async keyValue => {
+          const { url } = await uploadToS3(
+            keyValue[1][0],
+            keyValue[0],
+            userData.data.email
+          )
+
+          await api.post('/account', {
+            email: userData.data.email,
+            url,
+            field: keyValue[0]
+          })
         })
       }
     } catch (err) {
