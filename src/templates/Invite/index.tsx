@@ -6,13 +6,13 @@ import Profile from 'templates/Invite/Profile'
 export type InviteTemplatePageProps = {
   slug: string
   exhibition_name: string
-  custom_text: string
+  custom_text?: string
   subscription_price: string
 }
 
 export default function InviteTemplate({
   slug,
-  custom_text,
+  custom_text = '',
   exhibition_name,
   subscription_price
 }: InviteTemplatePageProps) {
@@ -33,6 +33,7 @@ export default function InviteTemplate({
           custom_text={custom_text}
           slug={slug}
         />
+
         <InviteForm slug={slug} subscription_price={subscription_price} />
 
         <Link href={`/invite/${slug}/unsubscribe`}>
