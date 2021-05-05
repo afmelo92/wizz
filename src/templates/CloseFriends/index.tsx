@@ -132,6 +132,7 @@ const CloseFriendsTemplate = ({
                 comece a gerenciar seus contatos."
                 hasButton
                 buttonText="Fazer login no Instagram"
+                link="/close-friends/instagram"
               />
             )}
             <SimpleGrid

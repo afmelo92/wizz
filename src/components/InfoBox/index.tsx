@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import {
   InputProps as ChakraInputProps,
   Container,
@@ -10,6 +11,7 @@ import {
 type InfoBoxProps = {
   hasButton?: boolean
   buttonText?: string
+  link?: string
   text?: string
   title?: string
 } & ChakraInputProps
@@ -17,6 +19,7 @@ type InfoBoxProps = {
 export default function InfoBox({
   text,
   title = '',
+  link,
   hasButton = false,
   buttonText,
   ...rest
@@ -45,17 +48,19 @@ export default function InfoBox({
           {title || text}
         </Text>
         {hasButton && (
-          <Button
-            as="a"
-            background="pink.500"
-            _hover={{ background: 'pink.700' }}
-            cursor="pointer"
-            width={['100%', '300px']}
-            mt={{ base: '6', lg: '0' }}
-            size="md"
-          >
-            {buttonText}
-          </Button>
+          <Link href={link} passHref>
+            <Button
+              as="a"
+              background="pink.500"
+              _hover={{ background: 'pink.700' }}
+              cursor="pointer"
+              width={['100%', '300px']}
+              mt={{ base: '6', lg: '0' }}
+              size="md"
+            >
+              {buttonText}
+            </Button>
+          </Link>
         )}
       </Flex>
     </Container>
