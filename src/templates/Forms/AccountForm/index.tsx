@@ -13,6 +13,8 @@ import { accountFormSchema } from 'utils/validations'
 import { Input } from 'components/Form/Input'
 import { FileInput } from 'components/Form/FileInput'
 import { ConnectForm } from 'components/Form/ConnectForm'
+import { useS3Upload } from 'hooks/use-s3-upload'
+import { useSession } from 'next-auth/client'
 
 export type AccountFormData = {
   instagram_print: FileList | string
@@ -29,6 +31,9 @@ export type AccountFormData = {
 }
 
 export default function AccountForm() {
+  const { uploadToS3 } = useS3Upload()
+  const [session] = useSession()
+
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
@@ -45,15 +50,33 @@ export default function AccountForm() {
     event.preventDefault()
     console.log('ONSUBMIT ACCOUNT:::', values)
 
-    // try {
-    //   await api.post('/account', {
-    //     user_email: 'andre.fabian.melo@gmail.com',
-    //     ...values
-    //   })
+    try {
+      Object.entries(values).forEach(
+        async (keyValue: [string, string | FileList]) => {
+          if (
+            keyValue[0] === 'instagram_print' ||
+            keyValue[0] === 'personal_doc' ||
+            keyValue[0] === 'address_doc'
+          ) {
+            console.log('KEYVALUE:::', keyValue)
+            if (keyValue[1][0]) {
+              await uploadToS3(
+                keyValue[1][0] as File,
+                keyValue[0],
+                session.user.email
+              )
+            }
+          }
+        }
+      )
 
-    // } catch (err) {
-    //   console.log('ERROR:::', err)
-    // }
+      await api.post('/account', {
+        user_email: session.user.email,
+        ...values
+      })
+    } catch (err) {
+      console.log('ERROR:::', err)
+    }
   }
 
   return (

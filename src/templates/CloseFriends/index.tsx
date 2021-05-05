@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import {
   Flex,
   SimpleGrid,
@@ -24,7 +23,6 @@ import { Sidebar } from 'components/Sidebar'
 import { Header } from 'components/Header'
 import { RiPencilLine } from 'react-icons/ri'
 import Pagination from 'components/Pagination'
-import { Subscriber } from 'utils/types/faunaTypes'
 import InfoBox from 'components/InfoBox'
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
