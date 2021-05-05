@@ -68,80 +68,114 @@ export const useS3Upload = () => {
     fieldIdentifier: string,
     userEmail: string
   ) => {
-    const filename = encodeURIComponent(file.name)
+    try {
+      const filename = encodeURIComponent(file.name)
 
-    const res = await api.post(
-      `/upload`,
-      {
-        email: userEmail
-      },
-      {
-        params: {
-          filename,
-          fieldIdentifier
+      const res = await api.post(
+        `/upload`,
+        {
+          email: userEmail
+        },
+        {
+          params: {
+            filename,
+            fieldIdentifier
+          }
         }
-      }
-    )
+      )
 
-    const data = await res.data
+      const data = await res.data
 
-    if (data.error) {
-      throw data.error
-    } else {
-      const s3 = new S3({
-        accessKeyId: data.token.Credentials.AccessKeyId,
-        secretAccessKey: data.token.Credentials.SecretAccessKey,
-        sessionToken: data.token.Credentials.SessionToken
-      })
+      if (data.error) {
+        throw data.error
+      } else {
+        const s3 = new S3({
+          credentials: {
+            accessKeyId: data.token.Credentials.AccessKeyId,
+            secretAccessKey: data.token.Credentials.SecretAccessKey,
+            sessionToken: data.token.Credentials.SessionToken
+          }
+        })
 
-      const blob = await getFileContents(file)
+        const blob = await getFileContents(file)
 
-      const params = {
-        ACL: 'public-read',
-        Bucket: data.bucket,
-        Key: data.key,
-        Body: blob,
-        CacheControl: 'max-age=630720000, public',
-        ContentType: file.type
-      }
+        const params = {
+          ACL: 'public-read',
+          Bucket: data.bucket,
+          Key: data.key,
+          Body: blob,
+          CacheControl: 'max-age=630720000, public',
+          ContentType: file.type
+        }
 
-      // at some point make this configurable
-      // let uploadOptions = {
-      //   partSize: 100 * 1024 * 1024,
-      //   queueSize: 1,
-      // };
+        // at some point make this configurable
+        // let uploadOptions = {
+        //   partSize: 100 * 1024 * 1024,
+        //   queueSize: 1,
+        // };
 
-      const s3Upload = s3.upload(params)
+        // try {
+        //   console.log('DATA-DELETE-KEY:::', data.deleteKey)
+        //   const ninja = await s3
+        //     .deleteObject({
+        //       Bucket: data.bucket,
+        //       Key: data.deleteKey
+        //     })
+        //     .promise()
 
-      setFiles(files => [
-        ...files,
-        { file, progress: 0, uploaded: 0, size: file.size }
-      ])
+        //   console.log('NINJA:::', ninja)
+        // } catch (err) {
+        //   console.log('ERR:::', err)
+        // }
 
-      s3Upload.on('httpUploadProgress', event => {
-        if (event.total) {
-          setFiles(files =>
-            files.map(trackedFile =>
-              trackedFile.file === file
-                ? {
-                    file,
-                    uploaded: event.loaded,
-                    size: event.total,
-                    progress: (event.loaded / event.total) * 100
-                  }
-                : trackedFile
+        const s3Upload = s3.upload(params)
+
+        setFiles(files => [
+          ...files,
+          { file, progress: 0, uploaded: 0, size: file.size }
+        ])
+
+        s3Upload.on('httpUploadProgress', event => {
+          if (event.total) {
+            setFiles(files =>
+              files.map(trackedFile =>
+                trackedFile.file === file
+                  ? {
+                      file,
+                      uploaded: event.loaded,
+                      size: event.total,
+                      progress: (event.loaded / event.total) * 100
+                    }
+                  : trackedFile
+              )
             )
-          )
+          }
+        })
+
+        const uploadResult = await s3Upload.promise()
+
+        const accountData = {}
+
+        Object.defineProperty(accountData, fieldIdentifier, {
+          enumerable: true,
+          configurable: true,
+          writable: true,
+          value: uploadResult.Location
+        })
+
+        await api.post('/account', {
+          ...accountData,
+          user_email: userEmail
+        })
+
+        return {
+          url: uploadResult.Location,
+          bucket: uploadResult.Bucket,
+          key: uploadResult.Key
         }
-      })
-
-      const uploadResult = await s3Upload.promise()
-
-      return {
-        url: uploadResult.Location,
-        bucket: uploadResult.Bucket,
-        key: uploadResult.Key
       }
+    } catch (err) {
+      console.log('ERR:::', err)
     }
   }
 

@@ -39,14 +39,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const key = `next-s3-uploads/${
       user.data.email
     }/${field}/${uuidv4()}-${filename.replace(/\s/g, '-')}`
+    const deleteKey = `next-s3-uploads/${user.data.email}/${field}`
 
     const policy = {
       Statement: [
         {
-          Sid: 'Stmt1S3UploadAssets',
+          Sid: 'S3UploadAssets',
           Effect: 'Allow',
-          Action: ['s3:PutObject', 's3:PutObjectAcl'],
-          Resource: [`arn:aws:s3:::${bucket}/${key}`]
+          Action: ['s3:DeleteObject', 's3:PutObject', 's3:PutObjectAcl'],
+          Resource: [
+            `arn:aws:s3:::${bucket}/${key}`,
+            `arn:aws:s3:::${bucket}/${key}/*`
+          ]
         }
       ]
     }
@@ -63,6 +67,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.statusCode = 200
 
-    return res.status(200).json({ token, key, bucket })
+    return res.status(200).json({ token, key, deleteKey, bucket })
   }
 }

@@ -19,21 +19,62 @@ export const leadFormSchema = yup.object().shape({
   subscription_price: yup.string().required('Preço da mensalidade obrigatório')
 })
 
-export const validateFiles = (value: FileList) => {
-  if (value?.length < 1) {
-    return 'Arquivos obrigatórios'
-  }
-  for (const file of Array.from(value)) {
-    if (!file.type.match(/image\/.*/gi)) {
-      return 'Apenas aquivos de imagem ou pdf são permitidos'
-    }
-  }
-  for (const file of Array.from(value)) {
-    const fsMb = file.size / (1024 * 1024)
-    const MAX_FILE_SIZE = 10
-    if (fsMb > MAX_FILE_SIZE) {
-      return 'Tamanho máximo do arquivo 10mb'
-    }
-  }
-  return true
-}
+export const accountFormSchema = yup.object().shape({
+  instagram_print: yup
+    .mixed()
+    .required('Arquivo obrigatório')
+    .test('fileSize', 'Arquivo é muito grande. Máximo 2MB.', value => {
+      return value && value[0].size <= 2000000
+    })
+    .test('fileType', 'Apenas arquivos de imagem permitidos', value => {
+      return (
+        value &&
+        value[0].type.match(/(image\/(jpeg|jpg|png))|(application\/(pdf))/gi)
+      )
+    }),
+  personal_doc: yup
+    .mixed()
+    .required('Arquivo obrigatório')
+    .test('fileSize', 'Arquivo é muito grande. Máximo 2MB.', value => {
+      return value && value[0].size <= 2000000
+    })
+    .test('fileType', 'Apenas arquivos de imagem permitidos', value => {
+      return (
+        value &&
+        value[0].type.match(/(image\/(jpeg|jpg|png))|(application\/(pdf))/gi)
+      )
+    }),
+  address_doc: yup
+    .mixed()
+    .required('Arquivo obrigatório')
+    .test('fileSize', 'Arquivo é muito grande. Máximo 2MB.', value => {
+      return value && value[0].size <= 2000000
+    })
+    .test('fileType', 'Apenas arquivos de imagem permitidos', value => {
+      return (
+        value &&
+        value[0].type.match(/(image\/(jpeg|jpg|png))|(application\/(pdf))/gi)
+      )
+    }),
+  firstname: yup.string().required('Nome obrigatório'),
+  lastname: yup.string().required('Sobreome obrigatório'),
+  cpf: yup
+    .string()
+    .length(11, '11 dígitos obrigatórios')
+    .required('CPF obrigatório'),
+  email: yup.string().email('E-mail inválido').required('E-mail obrigatório'),
+  phone: yup
+    .string()
+    .length(11, '11 dígitos obrigatórios')
+    .required('Telefone obrigatório'),
+  birthdate: yup
+    .date()
+    .typeError('Data inválida')
+    .max(new Date(), 'Você não pode nascer no futuro')
+    .required('Data de nascimento obrigatória'),
+  cep: yup
+    .string()
+    .min(8, '8 dígitos obrigatórios')
+    .required('CEP obrigatório'),
+  address_number: yup.string().required('Número obrigatório')
+})

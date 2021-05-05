@@ -25,6 +25,7 @@ import { Header } from 'components/Header'
 import { RiPencilLine } from 'react-icons/ri'
 import Pagination from 'components/Pagination'
 import { Subscriber } from 'utils/types/faunaTypes'
+import InfoBox from 'components/InfoBox'
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
@@ -126,35 +127,12 @@ const CloseFriendsTemplate = ({
           <Sidebar />
           <Flex direction="column" maxWidth={1480} w="100%" pb="4">
             {!instagramSessionId && (
-              <Flex
-                direction={isWideVersion ? 'row' : 'column'}
-                py={{ base: '8', lg: '4' }}
-                px={{ base: '6', lg: '8' }}
-                w="100%"
-                bg="gray.700"
-                borderRadius={4}
-                mb="4"
-                justifyContent={isWideVersion ? 'space-between' : 'center'}
-                align="center"
-                textAlign="center"
-              >
-                <Text fontSize="md" mb={{ base: '20px', lg: '0px' }}>
-                  Parece que você ainda não fez o login. Faça agora mesmo e
-                  comece a gerenciar seus contatos.
-                </Text>
-                <Link href="/close-friends/instagram">
-                  <Button
-                    as="a"
-                    background="pink.500"
-                    _hover={{ background: 'pink.700' }}
-                    cursor="pointer"
-                    width={['100%', '300px']}
-                    mt={{ base: '8', lg: '0' }}
-                  >
-                    Fazer login no Instagram
-                  </Button>
-                </Link>
-              </Flex>
+              <InfoBox
+                text="Parece que você ainda não fez o login. Faça agora mesmo e
+                comece a gerenciar seus contatos."
+                hasButton
+                buttonText="Fazer login no Instagram"
+              />
             )}
             <SimpleGrid
               flex="1"
@@ -238,15 +216,7 @@ const CloseFriendsTemplate = ({
               </Box>
             </SimpleGrid>
 
-            <Box
-              py={{ base: '2', lg: '4' }}
-              px={{ base: '6', lg: '8' }}
-              bg="gray.700"
-              borderRadius={4}
-              mb="4"
-            >
-              <Text fontSize="x-large">Assinantes</Text>
-            </Box>
+            <InfoBox title="Assinantes" />
 
             <SimpleGrid
               flex="1"
