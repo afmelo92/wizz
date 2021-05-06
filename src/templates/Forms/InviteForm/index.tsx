@@ -26,8 +26,6 @@ export default function InviteForm({
     resolver: yupResolver(inviteFormSchema)
   })
 
-  console.log(formState.errors)
-
   const handleInviteForm: SubmitHandler<InviteFormData> = async (
     values,
     event: React.FormEvent

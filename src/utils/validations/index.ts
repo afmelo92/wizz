@@ -1,5 +1,13 @@
 import * as yup from 'yup'
 
+export const signInFormSchema = yup.object().shape({
+  email: yup.string().required('E-mail obrigatório').email('Email inválido'),
+  password: yup
+    .string()
+    .required('Senha obrigatória')
+    .min(6, 'Mínimo de 6 caracteres')
+})
+
 export const inviteFormSchema = yup.object().shape({
   subscriber_instagram: yup.string().required('Nome de exibição obrigatório'),
   subscriber_email: yup
