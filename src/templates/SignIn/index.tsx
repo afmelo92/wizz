@@ -16,14 +16,8 @@ export default function SignInTemplate() {
   }
 
   return (
-    <Container border="2px" h="100vh">
-      <VStack
-        border="2px"
-        borderColor="red"
-        h="100%"
-        spacing="4"
-        justifyContent="center"
-      >
+    <Container h="100vh">
+      <VStack h="100%" spacing="4" justifyContent="center">
         <Heading fontSize={'4xl'} color="pink.500">
           Login
         </Heading>
