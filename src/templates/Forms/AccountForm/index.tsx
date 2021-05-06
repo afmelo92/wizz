@@ -80,7 +80,7 @@ export default function AccountForm() {
   }
 
   return (
-    <Container h="100%" w="100%" maxW="1200px" p={{ base: '2', lg: '8' }}>
+    <Container h="100%" w="100%" maxW="1200px" p="0" pb="4">
       <FormProvider {...methods}>
         <Flex
           direction="column"
@@ -202,8 +202,11 @@ export default function AccountForm() {
             )}
           </ConnectForm>
           <Button
-            mx="2"
+            w="100%"
+            maxW="600px"
+            mx="auto"
             mt="4"
+            p="8"
             size="lg"
             type="submit"
             background="pink.500"
