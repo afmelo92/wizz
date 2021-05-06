@@ -41,16 +41,16 @@ export function Header() {
         <IconButton
           aria-label="Open navigation"
           icon={<Icon as={RiMenuLine} />}
-          fontSize="24"
+          fontSize="30"
           variant="unstyled"
           onClick={onOpen}
           mr="2"
         />
       )}
 
-      <Logo />
+      {isWideVersion && <Logo />}
 
-      {!session && (
+      {!session && isWideVersion && (
         <HStack spacing="24px" ml="-180px">
           <Box
             as="a"
