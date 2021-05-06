@@ -8,6 +8,22 @@ export const signInFormSchema = yup.object().shape({
     .min(6, 'Mínimo de 6 caracteres')
 })
 
+export const signUpFormSchema = yup.object().shape({
+  name: yup.string().required('Nome obrigatório'),
+  email: yup.string().required('E-mail obrigatório').email('Email inválido'),
+  password: yup
+    .string()
+    .required('Senha obrigatória')
+    .min(6, 'Mínimo de 6 caracteres'),
+  password_confirmation: yup
+    .string()
+    .required('Confirmação de senha obrigatória')
+    .oneOf(
+      [yup.ref('password'), null],
+      'A confirmação precisa ser igual a senha'
+    )
+})
+
 export const inviteFormSchema = yup.object().shape({
   subscriber_instagram: yup.string().required('Nome de exibição obrigatório'),
   subscriber_email: yup

@@ -16,20 +16,20 @@ export default function SignInTemplate() {
   }
 
   return (
-    <Container h="100vh">
-      <VStack h="100%" spacing="4" justifyContent="center">
+    <Container h="100vh" py={{ base: '28%', lg: '10%' }}>
+      <VStack
+        h="100%"
+        maxH="600px"
+        spacing="4"
+        justifyContent="center"
+        background="gray.800"
+        borderRadius="10"
+      >
         <Heading fontSize={'4xl'} color="pink.500">
           Login
         </Heading>
 
-        <VStack
-          spacing={4}
-          background="gray.800"
-          p="12"
-          borderRadius="10"
-          w="100%"
-          maxW="400px"
-        >
+        <VStack spacing={4} p="12" borderRadius="10" w="100%" maxW="400px">
           <SignInForm />
 
           <Divider />
