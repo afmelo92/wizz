@@ -8,9 +8,9 @@ import {
   Icon
 } from '@chakra-ui/react'
 import {
+  ChangeEvent,
   forwardRef,
   ForwardRefRenderFunction,
-  useEffect,
   useRef,
   useState
 } from 'react'
@@ -30,17 +30,20 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   ref
 ) => {
   const [fieldValue, setFieldValue] = useState('')
-  const { watch, register } = useFormContext()
+  const { register, setValue } = useFormContext()
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const handleButtonClick = () => {
+    inputRef.current.value = ''
     inputRef?.current.click()
   }
 
-  useEffect(() => {
-    setFieldValue(watch(name, '')[0]?.name)
-  }, [watch(name)])
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const value = event.target?.files
+    setFieldValue(value[0].name)
+    setValue(name, value)
+  }
 
   return (
     <FormControl isInvalid={!!error}>
@@ -50,6 +53,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         type="file"
         {...register(name)}
         hidden
+        onChange={handleChange}
         ref={e => {
           ref
           inputRef.current = e

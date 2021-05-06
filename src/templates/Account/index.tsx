@@ -11,7 +11,7 @@ export type LeadTemplateProps = {
 }
 
 export default function AccountTemplate() {
-  const underAnalysis = true
+  const underAnalysis = false
   return (
     <>
       <Header />
