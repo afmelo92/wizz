@@ -36,10 +36,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const filename = req.query.filename as string
     const field = req.query.fieldIdentifier as string
-    const key = `next-s3-uploads/${
+    const key = `uploads/${
       user.data.email
     }/${field}/${uuidv4()}-${filename.replace(/\s/g, '-')}`
-    const deleteKey = `next-s3-uploads/${user.data.email}/${field}`
+    const deleteKey = `uploads/${user.data.email}/${field}`
 
     const policy = {
       Statement: [

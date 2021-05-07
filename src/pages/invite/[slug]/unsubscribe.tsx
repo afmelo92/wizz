@@ -4,7 +4,7 @@ import { query as q } from 'faunadb'
 
 import UnsubscribeTemplate, {
   InviteTemplatePageProps
-} from 'templates/Unsubscribe'
+} from 'templates/Invite/Unsubscribe'
 import { Users, User } from 'utils/types/faunaTypes'
 
 export default function InviteDynamicPage(props: InviteTemplatePageProps) {

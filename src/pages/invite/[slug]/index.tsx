@@ -2,7 +2,9 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { fauna } from 'services/fauna'
 import { query as q } from 'faunadb'
 
-import InviteTemplate, { InviteTemplatePageProps } from 'templates/Invite'
+import InviteTemplate, {
+  InviteTemplatePageProps
+} from 'templates/Invite/Subscribe'
 import { Users, User } from 'utils/types/faunaTypes'
 
 export default function InviteDynamicPage(props: InviteTemplatePageProps) {

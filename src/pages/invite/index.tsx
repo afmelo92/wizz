@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext } from 'next'
-import LeadsTemplate, { LeadTemplateProps } from 'templates/Leads'
+import UserInviteTemplate, { UserInviteTemplateProps } from 'templates/Invite'
 import protectedRoutes from 'utils/protected-routes'
 
-export default function InvitePage(props: LeadTemplateProps) {
-  return <LeadsTemplate {...props} />
+export default function InvitePage(props: UserInviteTemplateProps) {
+  return <UserInviteTemplate {...props} />
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

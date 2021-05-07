@@ -1,52 +1,66 @@
-import Link from 'next/link'
-import { Container, VStack, Text } from '@chakra-ui/react'
-import InviteForm from 'templates/Forms/InviteForm'
-import Profile from 'templates/Invite/Profile'
+import React, { useState } from 'react'
 
-export type InviteTemplatePageProps = {
-  slug: string
-  exhibition_name: string
-  custom_text?: string
-  subscription_price: string
+import { Header } from 'components/Header'
+import { Sidebar } from 'components/Sidebar'
+import { Flex, Stack, useBreakpointValue } from '@chakra-ui/react'
+
+import UserInviteForm from 'templates/Forms/UserInviteForm'
+import { Session } from 'next-auth/client'
+import UserInvitePreview from './Preview'
+
+export type UserInviteTemplateProps = {
+  session: Session
 }
 
-export default function InviteTemplate({
-  slug,
-  custom_text = '',
-  exhibition_name,
-  subscription_price
-}: InviteTemplatePageProps) {
+export default function UserInviteTemplate({
+  session
+}: UserInviteTemplateProps) {
+  const { userData } = session
+
+  const [previewName, setpreviewName] = useState(
+    userData.data.invite?.exhibition_name || ''
+  )
+  const [previewPrice, setpreviewPrice] = useState(
+    String(userData.data.invite?.subscription_price || 0)
+  )
+
+  const [previewText, setpreviewText] = useState(
+    userData.data.invite?.custom_text || ''
+  )
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true
+  })
+
   return (
-    <Container maxW="1480px" p={{ base: '4' }} h="100vh">
-      <VStack
-        w="100%"
-        maxW="550px"
-        h="100%"
-        m="auto"
-        background="gray.800"
-        borderRadius={10}
-        p={{ base: '4', lg: '6' }}
-        spacing="4"
-      >
-        <Profile
-          exhibition_name={exhibition_name}
-          custom_text={custom_text}
-          slug={slug}
-        />
+    <>
+      <Header />
+      <Flex direction="column" h="100%">
+        <Flex
+          w="100%"
+          my="6"
+          maxWidth={1480}
+          mx="auto"
+          px={{ base: '0', lg: '6' }}
+        >
+          <Sidebar />
+          <Stack direction={isWideVersion ? 'row' : 'column'} mx="auto">
+            <UserInviteForm
+              session={session}
+              setpreviewName={setpreviewName}
+              setpreviewText={setpreviewText}
+              setpreviewPrice={setpreviewPrice}
+            />
 
-        <InviteForm slug={slug} subscription_price={subscription_price} />
-
-        <Link href={`/invite/${slug}/unsubscribe`}>
-          <Text
-            as="a"
-            fontWeight="bold"
-            _hover={{ color: 'red.500' }}
-            transition="ease 0.2s"
-          >
-            Quer se desinscrever? Clique aqui!
-          </Text>
-        </Link>
-      </VStack>
-    </Container>
+            <UserInvitePreview
+              userData={userData}
+              previewName={previewName}
+              previewText={previewText}
+              previewPrice={previewPrice}
+            />
+          </Stack>
+        </Flex>
+      </Flex>
+    </>
   )
 }

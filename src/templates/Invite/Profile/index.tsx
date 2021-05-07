@@ -4,19 +4,27 @@ type InviteProfileProps = {
   exhibition_name: string
   slug: string
   custom_text: string
+  preview?: boolean
 }
 
 export default function InviteProfile({
   exhibition_name,
   slug,
-  custom_text
+  custom_text,
+  preview = false
 }: InviteProfileProps) {
   return (
     <Container h="100%">
       <VStack spacing="4">
         <Box
-          maxW={{ base: '200px', lg: '250px' }}
-          border={{ base: '4px', lg: '8px' }}
+          maxW={
+            preview
+              ? { base: '120px', lg: '170px' }
+              : { base: '200px', lg: '250px' }
+          }
+          border={
+            preview ? { base: '2px', lg: '4px' } : { base: '4px', lg: '8px' }
+          }
           borderRadius="50%"
           borderColor={{ base: 'pink.500', lg: 'pink.500' }}
         >
@@ -30,17 +38,30 @@ export default function InviteProfile({
           <Text
             color="pink.500"
             fontWeight="bold"
-            fontSize={{ base: '2xl', lg: '4xl' }}
+            fontSize={
+              preview ? { base: 'xl', lg: '2xl' } : { base: '2xl', lg: '4xl' }
+            }
             textAlign="center"
+            maxW="400px"
           >
             Close Friends do {exhibition_name}
           </Text>
         </Box>
         <Box>
-          <Text fontSize={{ base: 'md', lg: 'xl' }}>@{slug}</Text>
+          <Text
+            fontSize={
+              preview ? { base: 'sm', lg: 'md' } : { base: 'md', lg: 'xl' }
+            }
+          >
+            @{slug}
+          </Text>
         </Box>
         <Box>
-          <Text fontSize={{ base: 'md', lg: 'md' }} textAlign="center">
+          <Text
+            fontSize={{ base: 'md', lg: 'md' }}
+            textAlign="center"
+            maxW="400px"
+          >
             {custom_text}
           </Text>
         </Box>
