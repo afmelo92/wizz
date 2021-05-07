@@ -42,6 +42,7 @@ export default function InviteTemplate({
             fontWeight="bold"
             _hover={{ color: 'red.500' }}
             transition="ease 0.2s"
+            cursor="pointer"
           >
             Quer se desinscrever? Clique aqui!
           </Text>

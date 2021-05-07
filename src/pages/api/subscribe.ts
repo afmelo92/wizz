@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       subscriber_instagram,
       subscriber_email,
-      subscriber_telegram,
+      subscriber_phone,
       slug
     } = req.body
 
@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           q.Create(q.Collection('subscribers'), {
             data: {
               subscriber_instagram: q.Casefold(subscriber_instagram),
-              subscriber_telegram,
+              subscriber_phone,
               subscriber_email: q.Casefold(subscriber_email),
               stripe_customer_id: ''
             }

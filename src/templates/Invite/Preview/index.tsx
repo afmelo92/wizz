@@ -56,7 +56,7 @@ export default function UserInvitePreview({
           isDisabled
         />
         <Input
-          name="subscriber_telegram_preview"
+          name="subscriber_phone_preview"
           type="tel"
           max="11"
           label="Seu telegram"

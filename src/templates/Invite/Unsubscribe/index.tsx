@@ -2,6 +2,11 @@ import { Container, VStack } from '@chakra-ui/react'
 import Profile from 'templates/Invite/Profile'
 import SendDataUnsubscribeForm from 'templates/Forms/UnsubscribeForm/SendData'
 import ConfirmationUnsubscribeForm from 'templates/Forms/UnsubscribeForm/Confirmation'
+import { useState } from 'react'
+import {
+  unsubConfirmationMessage,
+  unsubFirstMessage
+} from 'utils/defaultMessages'
 
 export type InviteTemplatePageProps = {
   slug: string
@@ -14,10 +19,10 @@ export default function UnsubscribeTemplate({
   slug,
   exhibition_name
 }: InviteTemplatePageProps) {
-  const sendCode = false
+  const [sendCode, setSendCode] = useState(false)
 
   return (
-    <Container maxW="1480px" p={{ base: '4' }} h="100vh">
+    <Container maxW="1480px" p={{ base: '4', lg: '24' }} h="100vh">
       <VStack
         w="100%"
         maxW="550px"
@@ -25,17 +30,17 @@ export default function UnsubscribeTemplate({
         m="auto"
         background="gray.800"
         borderRadius={10}
-        p={{ base: '4', lg: '6' }}
+        px={{ base: '4', lg: '6' }}
+        py={{ base: '14', lg: '30' }}
         spacing={sendCode ? '16' : '4'}
       >
         <Profile
           exhibition_name={exhibition_name}
-          custom_text="Lamento que queira se desinscrever. Caso não exista outra alternativa para que continue
-                        em meu close friends envie seu email ou telefone de inscrito e farei isso o mais rápido possível"
+          custom_text={!sendCode ? unsubFirstMessage : unsubConfirmationMessage}
           slug={slug}
         />
 
-        {!sendCode && <SendDataUnsubscribeForm />}
+        {!sendCode && <SendDataUnsubscribeForm setSendCode={setSendCode} />}
 
         {sendCode && <ConfirmationUnsubscribeForm />}
       </VStack>

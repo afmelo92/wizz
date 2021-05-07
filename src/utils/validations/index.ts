@@ -1,5 +1,17 @@
 import * as yup from 'yup'
 
+export const emailSchema = yup.object().shape({
+  email: yup.string().required('Email obrigatório').email('Email inválido')
+})
+
+export const phoneSchema = yup.object().shape({
+  phone: yup
+    .string()
+    .required('Telefone obrigatório')
+    .matches(/^\d+$/, 'Apenas números são permitidos')
+    .min(11, 'Mínimo de 11 dígitos com DDD')
+})
+
 export const signInFormSchema = yup.object().shape({
   email: yup.string().required('E-mail obrigatório').email('Email inválido'),
   password: yup
@@ -30,10 +42,10 @@ export const inviteFormSchema = yup.object().shape({
     .string()
     .email('Email inválido')
     .required('Email obrigatório'),
-  subscriber_telegram: yup
+  subscriber_phone: yup
     .string()
+    .matches(/^\d+$/, 'Apenas números são permitidos')
     .min(11, 'O formato deve ser 11 9 9999 9999')
-    .max(11, 'O formato deve ser 11 9 9999 9999')
     .required('Telegram obrigatório')
 })
 
@@ -84,12 +96,14 @@ export const accountFormSchema = yup.object().shape({
   lastname: yup.string().required('Sobreome obrigatório'),
   cpf: yup
     .string()
+    .matches(/^\d+$/, 'Apenas números são permitidos')
     .length(11, '11 dígitos obrigatórios')
     .required('CPF obrigatório'),
   email: yup.string().email('E-mail inválido').required('E-mail obrigatório'),
   phone: yup
     .string()
-    .length(11, '11 dígitos obrigatórios')
+    .matches(/^\d+$/, 'Apenas números são permitidos')
+    .min(11, 'Mínimo de 11 dígitos com DDD')
     .required('Telefone obrigatório'),
   birthdate: yup
     .date()
@@ -98,7 +112,11 @@ export const accountFormSchema = yup.object().shape({
     .required('Data de nascimento obrigatória'),
   cep: yup
     .string()
+    .matches(/^\d+$/, 'Apenas números são permitidos')
     .min(8, '8 dígitos obrigatórios')
     .required('CEP obrigatório'),
-  address_number: yup.string().required('Número obrigatório')
+  address_number: yup
+    .string()
+    .matches(/^\d+$/, 'Apenas números são permitidos')
+    .required('Número obrigatório')
 })

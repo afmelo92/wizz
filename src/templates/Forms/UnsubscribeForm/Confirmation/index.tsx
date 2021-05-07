@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 type ConfirmationFormData = {
   unsub_code?: string
-  subscriber_telegram?: string
+  subscriber_phone?: string
 }
 
 export default function ConfirmationUnsubscribeForm() {
@@ -22,7 +22,7 @@ export default function ConfirmationUnsubscribeForm() {
     try {
       // const response = await api.post('/unsub', {
       //   ...values,
-      //   subscriber_telegram: values.subscriber_telegram.replace(/\D/g, ''),
+      //   subscriber_phone: values.subscriber_phone.replace(/\D/g, ''),
       //   slug
       // })
       // const { sessionId } = response.data

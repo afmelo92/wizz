@@ -15,7 +15,7 @@ type InviteFormProps = {
 type InviteFormData = {
   subscriber_instagram: string
   subscriber_email: string
-  subscriber_telegram: string
+  subscriber_phone: string
 }
 
 export default function InviteForm({
@@ -36,7 +36,7 @@ export default function InviteForm({
     try {
       const response = await api.post('/subscribe', {
         ...values,
-        subscriber_telegram: values.subscriber_telegram.replace(/\D/g, ''),
+        subscriber_phone: values.subscriber_phone.replace(/\D/g, ''),
         slug
       })
 
@@ -72,13 +72,13 @@ export default function InviteForm({
           error={formState.errors.subscriber_email}
         />
         <Input
-          name="subscriber_telegram"
+          name="subscriber_phone"
           type="text"
           label="Seu telegram"
           placeholder="(XX) 9 9999-9999"
           focusBorderColor="pink.500"
-          {...register('subscriber_telegram')}
-          error={formState.errors.subscriber_telegram}
+          {...register('subscriber_phone')}
+          error={formState.errors.subscriber_phone}
         />
 
         <SubscribeButton

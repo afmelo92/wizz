@@ -15,12 +15,12 @@ export default function InviteProfile({
 }: InviteProfileProps) {
   return (
     <Container h="100%">
-      <VStack spacing="4">
+      <VStack spacing="2">
         <Box
           maxW={
             preview
               ? { base: '120px', lg: '170px' }
-              : { base: '200px', lg: '250px' }
+              : { base: '180px', lg: '230px' }
           }
           border={
             preview ? { base: '2px', lg: '4px' } : { base: '4px', lg: '8px' }
@@ -59,7 +59,7 @@ export default function InviteProfile({
         <Box>
           <Text
             fontSize={{ base: 'md', lg: 'md' }}
-            textAlign="center"
+            textAlign="justify"
             maxW="400px"
           >
             {custom_text}

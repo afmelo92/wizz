@@ -43,7 +43,7 @@ export type Subscribers = {
     {
       data: {
         subscriber_instagram: string
-        subscriber_telegram: string
+        subscriber_phone: string
         subscriber_email: string
         stripe_customer_id: string
         subscriptions: {
@@ -62,7 +62,7 @@ export type Subscriber = {
   }
   data: {
     subscriber_instagram: string
-    subscriber_telegram: string
+    subscriber_phone: string
     subscriber_email: string
     stripe_customer_id: string
     subscriptions: {
@@ -82,7 +82,7 @@ export type Subscription = {
   created_at: string
   subscriber: {
     subscriber_instagram: string
-    subscriber_telegram: string
+    subscriber_phone: string
     subscriber_email: string
     stripe_customer_id: string
   }

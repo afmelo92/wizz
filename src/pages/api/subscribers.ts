@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       subscriber_instagram,
       subscriber_email,
-      subscriber_telegram,
+      subscriber_phone,
       subscribed_at,
       slug
     } = req.body
@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           q.Create(q.Collection('subscribers'), {
             data: {
               subscriber_instagram,
-              subscriber_telegram,
+              subscriber_phone,
               subscriber_email,
               status: 'active',
               subscriptions: [{ influencer: slug, subscribed_at }]
