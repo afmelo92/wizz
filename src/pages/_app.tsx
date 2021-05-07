@@ -12,6 +12,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <NextAuthProvider session={pageProps.session}>
         <SidebarDrawerProvider>
           <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
             <title>Wizz. | O seu gestor de audiencia</title>
           </Head>
           <Component {...pageProps} />

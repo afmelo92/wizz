@@ -26,6 +26,8 @@ class MyDocument extends Document {
             name="description"
             content="An app to manage fanbases and make money with it"
           />
+
+          <meta name="theme-color" content="#181823" />
         </Head>
         <body>
           <Main />
