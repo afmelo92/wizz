@@ -4,6 +4,7 @@ import InfoBox from 'components/InfoBox'
 import AccountForm from 'templates/Forms/AccountForm'
 import { Flex } from '@chakra-ui/react'
 import { useState } from 'react'
+import { accountUnderAnalysisMessage } from 'utils/defaultMessages'
 
 export type AccountemplateProps = {
   underAnalysis: boolean
@@ -27,11 +28,7 @@ export default function AccountTemplate({
             maxW={underAnalysis || sendForm ? '600px' : '100%'}
           >
             {underAnalysis || sendForm ? (
-              <InfoBox
-                text="Suas informações estão sob análise para validação.
-                Em pouco tempo entraremos em contato para avisar que
-                sua conta já pode receber assinaturas"
-              />
+              <InfoBox text={accountUnderAnalysisMessage} />
             ) : (
               <>
                 <InfoBox
