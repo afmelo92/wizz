@@ -52,6 +52,7 @@ export default function InviteProfile({
             fontSize={
               preview ? { base: 'sm', lg: 'md' } : { base: 'md', lg: 'xl' }
             }
+            fontWeight="bold"
           >
             @{slug}
           </Text>

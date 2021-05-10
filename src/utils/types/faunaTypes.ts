@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Users = {
   data: [
     {
@@ -46,11 +47,7 @@ export type Subscribers = {
         subscriber_phone: string
         subscriber_email: string
         stripe_customer_id: string
-        subscriptions: {
-          influencer: string
-          subscribed_at: string
-          status: string
-        }[]
+        unsub_code: number
       }
     }
   ]
@@ -65,11 +62,7 @@ export type Subscriber = {
     subscriber_phone: string
     subscriber_email: string
     stripe_customer_id: string
-    subscriptions: {
-      influencer: string
-      subscribed_at: string
-      status: string
-    }[]
+    unsub_code: number
   }
 }
 
@@ -78,12 +71,14 @@ export type Subscriptions = {
 }
 
 export type Subscription = {
-  status: string
-  created_at: string
-  subscriber: {
-    subscriber_instagram: string
-    subscriber_phone: string
-    subscriber_email: string
-    stripe_customer_id: string
+  ref: {
+    id: string
+  }
+  data: {
+    id: string
+    subscriberId: any
+    influencerId: any
+    status: string
+    price_id: string
   }
 }

@@ -13,10 +13,13 @@ type SendDataFormData = {
 
 type SendDataUnsubscribeFormProps = {
   setSendCode: (value: boolean) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setUserIdentifier: (value: { [key: string]: any }) => void
 }
 
 export default function SendDataUnsubscribeForm({
-  setSendCode
+  setSendCode,
+  setUserIdentifier
 }: SendDataUnsubscribeFormProps) {
   const [sendMode, setSendMode] = useState(true)
 
@@ -30,6 +33,8 @@ export default function SendDataUnsubscribeForm({
   ) => {
     event.preventDefault()
     console.log(values)
+
+    setUserIdentifier(values)
 
     try {
       const response = await api.post('unsubscribe', {

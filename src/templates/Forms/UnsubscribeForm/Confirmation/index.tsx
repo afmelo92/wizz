@@ -1,13 +1,26 @@
 import { Container, VStack, Button } from '@chakra-ui/react'
 import { Input } from 'components/Form/Input'
+import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { api } from 'services/api'
+
+type ConfirmationUnsubscribeFormProps = {
+  userIdentifier: {
+    phone?: string
+    email?: string
+  }
+}
 
 type ConfirmationFormData = {
   unsub_code?: string
-  subscriber_phone?: string
 }
 
-export default function ConfirmationUnsubscribeForm() {
+export default function ConfirmationUnsubscribeForm({
+  userIdentifier
+}: ConfirmationUnsubscribeFormProps) {
+  const {
+    query: { slug }
+  } = useRouter()
   const { register, handleSubmit, formState } = useForm<ConfirmationFormData>({
     // resolver: yupResolver(unsubsFormSchema)
   })
@@ -20,14 +33,13 @@ export default function ConfirmationUnsubscribeForm() {
     console.log(values)
 
     try {
-      // const response = await api.post('/unsub', {
-      //   ...values,
-      //   subscriber_phone: values.subscriber_phone.replace(/\D/g, ''),
-      //   slug
-      // })
-      // const { sessionId } = response.data
-      // const stripe = await getStripeJS()
-      // await stripe.redirectToCheckout({ sessionId })
+      const response = await api.post('unsubscribe', {
+        ...values,
+        userIdentifier,
+        influencerIdentifier: slug
+      })
+
+      console.log('RESPONSE:::', response.data)
     } catch (err) {
       console.log('error:::', err)
     }

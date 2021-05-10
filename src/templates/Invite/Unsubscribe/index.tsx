@@ -20,6 +20,7 @@ export default function UnsubscribeTemplate({
   exhibition_name
 }: InviteTemplatePageProps) {
   const [sendCode, setSendCode] = useState(false)
+  const [userIdentifier, setUserIdentifier] = useState({})
 
   return (
     <Container maxW="1480px" p={{ base: '4', lg: '24' }} h="100vh">
@@ -40,9 +41,16 @@ export default function UnsubscribeTemplate({
           slug={slug}
         />
 
-        {!sendCode && <SendDataUnsubscribeForm setSendCode={setSendCode} />}
+        {!sendCode && (
+          <SendDataUnsubscribeForm
+            setSendCode={setSendCode}
+            setUserIdentifier={setUserIdentifier}
+          />
+        )}
 
-        {sendCode && <ConfirmationUnsubscribeForm />}
+        {sendCode && (
+          <ConfirmationUnsubscribeForm userIdentifier={userIdentifier} />
+        )}
       </VStack>
     </Container>
   )
