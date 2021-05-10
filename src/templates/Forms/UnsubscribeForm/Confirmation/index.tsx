@@ -11,6 +11,8 @@ type ConfirmationUnsubscribeFormProps = {
     phone?: string
     email?: string
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setUserIdentifier: (value: { [key: string]: any }) => void
 }
 
 type ConfirmationFormData = {
@@ -18,7 +20,8 @@ type ConfirmationFormData = {
 }
 
 export default function ConfirmationUnsubscribeForm({
-  userIdentifier
+  userIdentifier,
+  setUserIdentifier
 }: ConfirmationUnsubscribeFormProps) {
   const {
     query: { slug },
@@ -40,6 +43,11 @@ export default function ConfirmationUnsubscribeForm({
         ...values,
         userIdentifier,
         influencerIdentifier: slug
+      })
+
+      setUserIdentifier({
+        email: '',
+        phone: ''
       })
 
       console.log('RESPONSE:::', response.data)

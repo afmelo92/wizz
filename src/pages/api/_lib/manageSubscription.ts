@@ -1,6 +1,6 @@
 import { query as q } from 'faunadb'
-import { fauna } from '../../../services/fauna'
-import { stripe } from '../../../services/stripe'
+import { fauna } from 'services/fauna'
+import { stripe } from 'services/stripe'
 
 export async function saveSubscription(
   subscriptionId: string,
@@ -28,8 +28,6 @@ export async function saveSubscription(
     status: subscription.status,
     price_id: subscription.items.data[0].price.id
   }
-
-  console.log('WEBHOOK SUBSCRIPTION DATA :::', subscriptionData)
 
   if (createAction) {
     await fauna.query(

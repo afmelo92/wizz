@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { fauna } from 'services/fauna'
 import { query as q } from 'faunadb'
 // import messagebird from 'services/messagebird'
-import { Subscriber, Subscription, User } from 'utils/types/faunaTypes'
-import { sms } from 'services/smsdev'
-import { stripe } from 'services/stripe'
+import { Subscriber, User } from 'utils/types/faunaTypes'
+import sendValidationCode from './_lib/sendValidationCode'
+import deleteSubscription from './_lib/manageUnsubscription'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -23,23 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         )
 
         if (subscriber) {
-          const verificationCode = Math.floor(Math.random() * 90000) + 10000
-
-          await fauna.query(
-            q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
-              data: {
-                unsub_code: String(verificationCode)
-              }
-            })
-          )
-
-          await sms.post('/send', {
-            key: process.env.SMSDEV_KEY,
-            type: 9,
-            refer: '666',
-            number: subscriber.data.subscriber_phone,
-            msg: `Equipe wizz. :: Utilize o código a seguir para cancelar sua assinatura: ${verificationCode}`
-          })
+          await sendValidationCode(subscriber)
 
           return res
             .status(200)
@@ -61,23 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         )
 
         if (subscriber) {
-          const verificationCode = Math.floor(Math.random() * 90000) + 10000
-
-          await fauna.query(
-            q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
-              data: {
-                unsub_code: String(verificationCode)
-              }
-            })
-          )
-
-          await sms.post('/send', {
-            key: process.env.SMSDEV_KEY,
-            type: 9,
-            refer: '666',
-            number: subscriber.data.subscriber_phone,
-            msg: `Equipe wizz. :: Utilize o código a seguir para cancelar sua assinatura: ${verificationCode}`
-          })
+          await sendValidationCode(subscriber)
 
           return res
             .status(200)
@@ -116,24 +84,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             subscriber.data.unsub_code === unsub_code &&
             subscriber.data.stripe_customer_id !== ''
           ) {
-            const subscription = await fauna.query<Subscription>(
-              q.Get(
-                q.Match(q.Index('subscription_by_influencer_and_subscriber'), [
-                  subscriber.ref,
-                  influencer.ref
-                ])
-              )
-            )
-
-            await stripe.subscriptions.del(subscription.data.id)
-
-            await fauna.query(
-              q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
-                data: {
-                  unsub_code: ''
-                }
-              })
-            )
+            await deleteSubscription({ subscriber, influencer })
 
             return res
               .status(200)
@@ -154,24 +105,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             subscriber.data.unsub_code === unsub_code &&
             subscriber.data.stripe_customer_id !== ''
           ) {
-            const subscription = await fauna.query<Subscription>(
-              q.Get(
-                q.Match(q.Index('subscription_by_influencer_and_subscriber'), [
-                  subscriber.ref,
-                  influencer.ref
-                ])
-              )
-            )
-
-            await stripe.subscriptions.del(subscription.data.id)
-
-            await fauna.query(
-              q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
-                data: {
-                  unsub_code: ''
-                }
-              })
-            )
+            await deleteSubscription({ subscriber, influencer })
 
             return res
               .status(200)

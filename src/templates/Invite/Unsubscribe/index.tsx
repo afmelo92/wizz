@@ -49,7 +49,10 @@ export default function UnsubscribeTemplate({
         )}
 
         {sendCode && (
-          <ConfirmationUnsubscribeForm userIdentifier={userIdentifier} />
+          <ConfirmationUnsubscribeForm
+            userIdentifier={userIdentifier}
+            setUserIdentifier={setUserIdentifier}
+          />
         )}
       </VStack>
     </Container>
