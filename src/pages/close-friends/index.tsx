@@ -6,7 +6,7 @@ import CloseFriendsTemplate, {
   CloseFriendsTemplatePageProps
 } from 'templates/CloseFriends'
 import protectedRoutes from 'utils/protected-routes'
-import { User, Subscriptions } from 'utils/types/faunaTypes'
+import { User, FormattedSubscriptions } from 'utils/types/faunaTypes'
 
 export default function CloseFriendsPage(props: CloseFriendsTemplatePageProps) {
   return <CloseFriendsTemplate {...props} />
@@ -19,7 +19,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
   )
 
-  const subscriptions = await fauna.query<Subscriptions>(
+  const subscriptions = await fauna.query<FormattedSubscriptions>(
     q.Map(
       q.Paginate(
         q.Match(

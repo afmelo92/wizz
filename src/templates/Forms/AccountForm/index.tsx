@@ -16,6 +16,10 @@ import { ConnectForm } from 'components/Form/ConnectForm'
 import { useS3Upload } from 'hooks/use-s3-upload'
 import { useSession } from 'next-auth/client'
 
+export type AccountFormProps = {
+  setSendForm: (value: boolean) => void
+}
+
 export type AccountFormData = {
   instagram_print: FileList | string
   personal_doc: FileList | string
@@ -30,7 +34,7 @@ export type AccountFormData = {
   address_number: string
 }
 
-export default function AccountForm() {
+export default function AccountForm({ setSendForm }: AccountFormProps) {
   const { uploadToS3 } = useS3Upload()
   const [session] = useSession()
 
@@ -48,7 +52,6 @@ export default function AccountForm() {
     event: React.FormEvent
   ) => {
     event.preventDefault()
-    console.log('ONSUBMIT ACCOUNT:::', values)
 
     try {
       Object.entries(values).forEach(
@@ -58,7 +61,6 @@ export default function AccountForm() {
             keyValue[0] === 'personal_doc' ||
             keyValue[0] === 'address_doc'
           ) {
-            console.log('KEYVALUE:::', keyValue)
             if (keyValue[1][0]) {
               await uploadToS3(
                 keyValue[1][0] as File,
@@ -74,6 +76,8 @@ export default function AccountForm() {
         user_email: session.user.email,
         ...values
       })
+
+      setSendForm(true)
     } catch (err) {
       console.log('ERROR:::', err)
     }

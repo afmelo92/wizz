@@ -3,15 +3,17 @@ import { Sidebar } from 'components/Sidebar'
 import InfoBox from 'components/InfoBox'
 import AccountForm from 'templates/Forms/AccountForm'
 import { Flex } from '@chakra-ui/react'
+import { useState } from 'react'
 
-import { Session } from 'next-auth/client'
-
-export type LeadTemplateProps = {
-  session: Session
+export type AccountemplateProps = {
+  underAnalysis: boolean
 }
 
-export default function AccountTemplate() {
-  const underAnalysis = false
+export default function AccountTemplate({
+  underAnalysis = false
+}: AccountemplateProps) {
+  const [sendForm, setSendForm] = useState(underAnalysis)
+
   return (
     <>
       <Header />
@@ -21,10 +23,10 @@ export default function AccountTemplate() {
           <Flex
             width="100%"
             direction="column"
-            m={underAnalysis ? 'auto' : '0'}
-            maxW={underAnalysis ? '600px' : '100%'}
+            m={underAnalysis || sendForm ? 'auto' : '0'}
+            maxW={underAnalysis || sendForm ? '600px' : '100%'}
           >
-            {underAnalysis ? (
+            {underAnalysis || sendForm ? (
               <InfoBox
                 text="Suas informações estão sob análise para validação.
                 Em pouco tempo entraremos em contato para avisar que
@@ -37,7 +39,7 @@ export default function AccountTemplate() {
                   equipe avalie e verifique sua conta, favor enviar todas
                   as informações de uma única vez."
                 />
-                <AccountForm />
+                <AccountForm setSendForm={setSendForm} />
               </>
             )}
           </Flex>

@@ -9,6 +9,7 @@ export type Users = {
         email: string
         instagram?: string
         verified?: boolean
+        underAnalysis?: boolean
         invite?: {
           exhibition_name: string
           custom_text: string
@@ -29,6 +30,7 @@ export type User = {
     email: string
     instagram?: string
     verified?: boolean
+    underAnalysis?: boolean
     invite?: {
       exhibition_name: string
       custom_text: string
@@ -81,4 +83,14 @@ export type Subscription = {
     status: string
     price_id: string
   }
+}
+
+export type FormattedSubscriptions = {
+  data: [
+    {
+      status: string
+      created_at: string
+      subscriber: string
+    }
+  ]
 }
