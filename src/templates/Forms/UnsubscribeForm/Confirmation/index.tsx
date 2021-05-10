@@ -1,8 +1,10 @@
 import { Container, VStack, Button } from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Form/Input'
 import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { api } from 'services/api'
+import { unsubConfirmFormSchema } from 'utils/validations'
 
 type ConfirmationUnsubscribeFormProps = {
   userIdentifier: {
@@ -19,10 +21,11 @@ export default function ConfirmationUnsubscribeForm({
   userIdentifier
 }: ConfirmationUnsubscribeFormProps) {
   const {
-    query: { slug }
+    query: { slug },
+    push
   } = useRouter()
   const { register, handleSubmit, formState } = useForm<ConfirmationFormData>({
-    // resolver: yupResolver(unsubsFormSchema)
+    resolver: yupResolver(unsubConfirmFormSchema)
   })
 
   const handleConfirmationForm: SubmitHandler<ConfirmationFormData> = async (
@@ -40,6 +43,8 @@ export default function ConfirmationUnsubscribeForm({
       })
 
       console.log('RESPONSE:::', response.data)
+
+      push('/')
     } catch (err) {
       console.log('error:::', err)
     }
@@ -69,7 +74,7 @@ export default function ConfirmationUnsubscribeForm({
           type="submit"
           isLoading={formState.isSubmitting}
         >
-          Desinscrever agora {'  '} 😔
+          Desinscrever-me agora {'  '} 😔
         </Button>
       </VStack>
     </Container>

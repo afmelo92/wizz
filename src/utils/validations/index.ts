@@ -120,3 +120,11 @@ export const accountFormSchema = yup.object().shape({
     .matches(/^\d+$/, 'Apenas números são permitidos')
     .required('Número obrigatório')
 })
+
+export const unsubConfirmFormSchema = yup.object().shape({
+  unsub_code: yup
+    .string()
+    .required('O Código é obrigatório')
+    .min(5, '5 dígitos obrigatórios')
+    .max(5, '5 dígitos obrigatórios')
+})

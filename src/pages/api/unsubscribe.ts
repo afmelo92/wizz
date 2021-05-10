@@ -28,20 +28,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           await fauna.query(
             q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
               data: {
-                unsub_code: verificationCode
+                unsub_code: String(verificationCode)
               }
             })
           )
 
-          const smsResponse = await sms.post('/send', {
+          await sms.post('/send', {
             key: process.env.SMSDEV_KEY,
             type: 9,
             refer: '666',
             number: subscriber.data.subscriber_phone,
             msg: `Equipe wizz. :: Utilize o código a seguir para cancelar sua assinatura: ${verificationCode}`
           })
-
-          console.log('SMS RESPONSE:::', smsResponse.data)
 
           return res
             .status(200)
@@ -68,20 +66,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           await fauna.query(
             q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
               data: {
-                unsub_code: verificationCode
+                unsub_code: String(verificationCode)
               }
             })
           )
 
-          const smsResponse = await sms.post('/send', {
+          await sms.post('/send', {
             key: process.env.SMSDEV_KEY,
             type: 9,
             refer: '666',
             number: subscriber.data.subscriber_phone,
             msg: `Equipe wizz. :: Utilize o código a seguir para cancelar sua assinatura: ${verificationCode}`
           })
-
-          console.log('SMS RESPONSE:::', smsResponse.data)
 
           return res
             .status(200)
@@ -117,20 +113,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           )
 
           if (
-            subscriber.data.unsub_code === Number(unsub_code) &&
+            subscriber.data.unsub_code === unsub_code &&
             subscriber.data.stripe_customer_id !== ''
           ) {
-            // ENCERRAR ASSINATURA VIA STRIPE
-
-            // NECESSARIO ENVIAR DADOS DO INFLUENCER (SLUG) PARA CÁ, IDENTIFICAR A SUBSCRIPTION DO USUARIO E CANCELAR
-            // await fauna.query(
-            //   q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
-            //     data: {
-            //       unsub_code: '',
-            //       stripe_customer_id: ''
-            //     }
-            //   })
-            // )
             const subscription = await fauna.query<Subscription>(
               q.Get(
                 q.Match(q.Index('subscription_by_influencer_and_subscriber'), [
@@ -140,20 +125,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               )
             )
 
-            // await fauna.query(
-            //   q.Update(
-            //     q.Ref(q.Collection('subscriptions'), subscription.ref.id),
-            //     {
-            //       data: {
-            //         status: 'canceled'
-            //       }
-            //     }
-            //   )
-            // )
+            await stripe.subscriptions.del(subscription.data.id)
 
-            const deleted = await stripe.subscriptions.del(subscription.data.id)
-
-            console.log('DELETED:::', deleted)
+            await fauna.query(
+              q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
+                data: {
+                  unsub_code: ''
+                }
+              })
+            )
 
             return res
               .status(200)
@@ -172,18 +152,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
           if (
             subscriber.data.unsub_code === unsub_code &&
-            !!subscriber.data.stripe_customer_id
+            subscriber.data.stripe_customer_id !== ''
           ) {
-            // ENCERRAR ASSINATURA VIA STRIPE
+            const subscription = await fauna.query<Subscription>(
+              q.Get(
+                q.Match(q.Index('subscription_by_influencer_and_subscriber'), [
+                  subscriber.ref,
+                  influencer.ref
+                ])
+              )
+            )
+
+            await stripe.subscriptions.del(subscription.data.id)
 
             await fauna.query(
               q.Update(q.Ref(q.Collection('subscribers'), subscriber.ref.id), {
                 data: {
-                  unsub_code: '',
-                  stripe_customer_id: ''
+                  unsub_code: ''
                 }
               })
             )
+
             return res
               .status(200)
               .json({ message: 'Assinatura cancelada com o sucesso!' })
