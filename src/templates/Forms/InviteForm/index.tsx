@@ -74,7 +74,8 @@ export default function InviteForm({
         <Input
           name="subscriber_phone"
           type="text"
-          label="Seu telegram"
+          label="Seu melhor telefone"
+          help="Telegram ou WhatsApp"
           placeholder="(XX) 9 9999-9999"
           focusBorderColor="pink.500"
           {...register('subscriber_phone')}

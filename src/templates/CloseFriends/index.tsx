@@ -228,7 +228,7 @@ const CloseFriendsTemplate = ({
             >
               <Box p={{ base: '6', lg: '8' }}>
                 <Text fontSize="lg" mb="4" color="pink.400">
-                  Nome, Instagram ou Email
+                  Instagram ou Email
                 </Text>
                 <Input focusBorderColor="pink.500" placeholder="Pesquisar..." />
               </Box>

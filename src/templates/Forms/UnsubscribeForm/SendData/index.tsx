@@ -78,7 +78,7 @@ export default function SendDataUnsubscribeForm({
             <Input
               name="phone"
               type="tel"
-              label="Seu celular"
+              label="Seu telefone de cadastro"
               placeholder="(XX) 9 9999-9999"
               focusBorderColor="pink.500"
               {...register('phone')}
