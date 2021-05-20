@@ -1,38 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable react/display-name */
-import React, { ChangeEvent } from 'react'
-import { useRef, useState } from 'react'
-import { forwardRef } from 'react'
+import { useState } from 'react'
 import S3 from 'aws-sdk/clients/s3'
 
 import { api } from 'services/api'
-
-type FileInputProps = {
-  onChange: (
-    file: File | undefined,
-    event: ChangeEvent<HTMLInputElement>
-  ) => void
-  [index: string]: any // Indexer to spread props
-}
-
-const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
-  ({ onChange = () => {}, ...restOfProps }, forwardedRef) => {
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-      const file = event.target?.files?.[0]
-      onChange(file, event)
-    }
-
-    return (
-      <input
-        onChange={handleChange}
-        {...restOfProps}
-        ref={forwardedRef}
-        type="file"
-      />
-    )
-  }
-)
 
 const getFileContents = (file: File): Promise<any> => {
   return new Promise(resolve => {
@@ -53,15 +25,7 @@ type TrackedFile = {
 }
 
 export const useS3Upload = () => {
-  const ref = useRef<HTMLInputElement>()
   const [files, setFiles] = useState<TrackedFile[]>([])
-
-  const openFileDialog = () => {
-    if (ref.current) {
-      ref.current.value = ''
-      ref.current?.click()
-    }
-  }
 
   const uploadToS3 = async (
     file: File,
@@ -108,25 +72,14 @@ export const useS3Upload = () => {
           ContentType: file.type
         }
 
-        // at some point make this configurable
-        // let uploadOptions = {
-        //   partSize: 100 * 1024 * 1024,
-        //   queueSize: 1,
-        // };
-
-        // try {
-        //   console.log('DATA-DELETE-KEY:::', data.deleteKey)
-        //   const ninja = await s3
-        //     .deleteObject({
-        //       Bucket: data.bucket,
-        //       Key: data.deleteKey
-        //     })
-        //     .promise()
-
-        //   console.log('NINJA:::', ninja)
-        // } catch (err) {
-        //   console.log('ERR:::', err)
-        // }
+        if (data.deleteKey) {
+          await s3
+            .deleteObject({
+              Bucket: data.bucket,
+              Key: data.deleteKey
+            })
+            .promise()
+        }
 
         const s3Upload = s3.upload(params)
 
@@ -160,7 +113,7 @@ export const useS3Upload = () => {
           enumerable: true,
           configurable: true,
           writable: true,
-          value: uploadResult.Location
+          value: { url: uploadResult.Location, key: uploadResult.Key }
         })
 
         await api.post('/account', {
@@ -180,10 +133,6 @@ export const useS3Upload = () => {
   }
 
   return {
-    FileInput: (props: any) => (
-      <FileInput {...props} ref={ref} style={{ display: 'none' }} />
-    ),
-    openFileDialog,
     uploadToS3,
     files
   }

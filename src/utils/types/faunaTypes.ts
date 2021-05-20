@@ -19,9 +19,18 @@ export type Users = {
         }
         account?: {
           underAnalysis: boolean
-          instagram_print: string
-          personal_doc: string
-          address_doc: string
+          instagram_print: {
+            url: string
+            key: string
+          }
+          personal_doc: {
+            url: string
+            key: string
+          }
+          address_doc: {
+            url: string
+            key: string
+          }
           user_email: string
           firstname: string
           lastname: string
@@ -54,9 +63,18 @@ export type User = {
     }
     account?: {
       underAnalysis: boolean
-      instagram_print: string
-      personal_doc: string
-      address_doc: string
+      instagram_print: {
+        url: string
+        key: string
+      }
+      personal_doc: {
+        url: string
+        key: string
+      }
+      address_doc: {
+        url: string
+        key: string
+      }
       user_email: string
       firstname: string
       lastname: string

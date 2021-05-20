@@ -17,11 +17,16 @@ const missingEnvs = (): string[] => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const missing = missingEnvs()
+
   if (missing.length > 0) {
     res
       .status(500)
       .json({ error: `Next S3 Upload: Missing ENVs ${missing.join(', ')}` })
   } else {
+    // ID relacionada ao IAM USER
+    const filename = req.query.filename as string
+    const field = req.query.fieldIdentifier as string
+
     const config = {
       accessKeyId: process.env.S3_UPLOAD_KEY,
       secretAccessKey: process.env.S3_UPLOAD_SECRET,
@@ -34,34 +39,45 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       q.Get(q.Match(q.Index('user_by_email'), req.body.email))
     )
 
-    const filename = req.query.filename as string
-    const field = req.query.fieldIdentifier as string
+    let deleteKey = ''
+
+    switch (field) {
+      case 'instagram_print':
+        deleteKey = user.data.account?.instagram_print?.key
+        break
+      case 'personal_doc':
+        deleteKey = user.data.account?.personal_doc?.key
+        break
+      case 'address_doc':
+        deleteKey = user.data.account?.address_doc?.key
+        break
+      default:
+        deleteKey = ''
+        break
+    }
+
     const key = `uploads/${
       user.data.email
     }/${field}/${uuidv4()}-${filename.replace(/\s/g, '-')}`
-    const deleteKey = `uploads/${user.data.email}/${field}`
 
+    // Criando session policy (?) para o role logo abaixo
     const policy = {
       Statement: [
         {
           Sid: 'S3UploadAssets',
           Effect: 'Allow',
           Action: ['s3:DeleteObject', 's3:PutObject', 's3:PutObjectAcl'],
-          Resource: [
-            `arn:aws:s3:::${bucket}/${key}`,
-            `arn:aws:s3:::${bucket}/${key}/*`
-          ]
+          Resource: [`arn:aws:s3:::${bucket}/*`]
         }
       ]
     }
-
     const sts = new aws.STS(config)
 
     const token = await sts
       .getFederationToken({
         Name: 'S3UploadWebToken',
         Policy: JSON.stringify(policy),
-        DurationSeconds: 60 * 60 // 1 hour
+        DurationSeconds: (60 * 60) / 4 // 15 minutes
       })
       .promise()
 

@@ -12,17 +12,14 @@ export default function AccountPage(props: AccountemplateProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
 
-  const {
-    data: {
-      account: { underAnalysis }
-    }
-  } = await fauna.query<User>(
+  const user = await fauna.query<User>(
     q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
   )
+
   return {
     props: {
       session,
-      underAnalysis: underAnalysis || false
+      underAnalysis: user.data.account?.underAnalysis || false
     }
   }
 }

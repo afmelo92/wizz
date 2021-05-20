@@ -117,7 +117,7 @@ export default function AccountForm({ setSendForm }: AccountFormProps) {
                   />
                   <Input
                     name="cpf"
-                    type="text"
+                    type="tel"
                     label="CPF"
                     help="Apenas números"
                     placeholder="555.555.555-44"
@@ -137,7 +137,7 @@ export default function AccountForm({ setSendForm }: AccountFormProps) {
                   />
                   <Input
                     name="phone"
-                    type="text"
+                    type="tel"
                     label="Telefone/Whatsapp/Telegram"
                     help="Apenas números com DDD"
                     placeholder="(11) 9 9999-9999"
@@ -159,7 +159,7 @@ export default function AccountForm({ setSendForm }: AccountFormProps) {
                 <VStack mx="auto" w="100%" px="2">
                   <Input
                     name="cep"
-                    type="text"
+                    type="tel"
                     label="CEP"
                     help="Apenas números"
                     placeholder="12345-678"
@@ -169,7 +169,7 @@ export default function AccountForm({ setSendForm }: AccountFormProps) {
                   />
                   <Input
                     name="address_number"
-                    type="text"
+                    type="tel"
                     label="Número do endereço"
                     help="Apenas números"
                     placeholder="999"

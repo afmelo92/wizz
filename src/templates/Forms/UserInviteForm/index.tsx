@@ -55,15 +55,13 @@ export default function UserInviteForm({
 
     try {
       if (userData.data.verified) {
-        const response = await api.post('/subscriptions', {
+        await api.post('/subscriptions', {
           ...values,
           influencer: userData.data.instagram,
           subscription_price: Number(
             values.subscription_price.replace(/\D/g, '')
           )
         })
-
-        console.log('RESPONSE:::', response.data)
 
         reset({
           custom_text: '',
