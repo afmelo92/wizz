@@ -17,6 +17,7 @@ const missingEnvs = (): string[] => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const missing = missingEnvs()
+  const { email } = req.body
 
   if (missing.length > 0) {
     res
@@ -36,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const bucket = process.env.S3_UPLOAD_BUCKET
 
     const user = await fauna.query<User>(
-      q.Get(q.Match(q.Index('user_by_email'), req.body.email))
+      q.Get(q.Match(q.Index('user_by_email'), email))
     )
 
     let deleteKey = ''
@@ -67,7 +68,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           Sid: 'S3UploadAssets',
           Effect: 'Allow',
           Action: ['s3:DeleteObject', 's3:PutObject', 's3:PutObjectAcl'],
-          Resource: [`arn:aws:s3:::${bucket}/*`]
+          Resource: [`arn:aws:s3:::${bucket}/uploads/${email}/*`]
         }
       ]
     }
