@@ -38,7 +38,7 @@ export default function CloseFriendsTable({
   })
 
   return (
-    <Container w="100%" maxW="1200px" p="0" border="2px">
+    <Container w="100%" maxW="1200px" p="0">
       <Table colorScheme="whiteAlpha">
         <Thead>
           <Tr>
