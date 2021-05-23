@@ -1,4 +1,5 @@
 import {
+  Container,
   Box,
   Text,
   Button,
@@ -37,52 +38,54 @@ export default function CloseFriendsTable({
   })
 
   return (
-    <Table colorScheme="whiteAlpha">
-      <Thead>
-        <Tr>
-          <Th px="4" color="gray.300" width="6"></Th>
-          <Th>Usuário</Th>
+    <Container w="100%" maxW="1200px" p="0" border="2px">
+      <Table colorScheme="whiteAlpha">
+        <Thead>
+          <Tr>
+            <Th px="4" color="gray.300" width="6"></Th>
+            <Th>Usuário</Th>
 
-          {isWideVersion && <Th>Data de cadastro</Th>}
-          {isWideVersion && <Th>Status</Th>}
+            {isWideVersion && <Th>Data de cadastro</Th>}
+            {isWideVersion && <Th>Status</Th>}
 
-          <Th width="8"></Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {subscribers.map(sub => (
-          <Tr key={sub.subscriber.stripe_customer_id}>
-            <Td px={['4', '4', '6']}>
-              <Checkbox colorScheme="pink" />
-            </Td>
-            <Td>
-              <Box>
-                <Text fontWeight="bold">
-                  {sub.subscriber.subscriber_instagram}
-                </Text>
-                <Text fontSize="sm" color="gray.300">
-                  {sub.subscriber.subscriber_email}
-                </Text>
-              </Box>
-            </Td>
-            {isWideVersion && <Td>{sub.created_at}</Td>}
-            {isWideVersion && <Td>{sub.status}</Td>}
-            <Td>
-              <Button
-                as="a"
-                pl={isWideVersion ? '' : '5'}
-                size="sm"
-                fontSize="sm"
-                colorScheme="pink"
-                cursor="pointer"
-                leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-              >
-                {isWideVersion && 'Editar'}
-              </Button>
-            </Td>
+            <Th width="8"></Th>
           </Tr>
-        ))}
-      </Tbody>
-    </Table>
+        </Thead>
+        <Tbody>
+          {subscribers.map(sub => (
+            <Tr key={sub.subscriber.stripe_customer_id}>
+              <Td px={['4', '4', '6']}>
+                <Checkbox colorScheme="pink" />
+              </Td>
+              <Td>
+                <Box>
+                  <Text fontWeight="bold">
+                    {sub.subscriber.subscriber_instagram}
+                  </Text>
+                  <Text fontSize="sm" color="gray.300">
+                    {sub.subscriber.subscriber_email}
+                  </Text>
+                </Box>
+              </Td>
+              {isWideVersion && <Td>{sub.created_at}</Td>}
+              {isWideVersion && <Td>{sub.status}</Td>}
+              <Td>
+                <Button
+                  as="a"
+                  pl={isWideVersion ? '' : '5'}
+                  size="sm"
+                  fontSize="sm"
+                  colorScheme="pink"
+                  cursor="pointer"
+                  leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                >
+                  {isWideVersion && 'Editar'}
+                </Button>
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </Container>
   )
 }
