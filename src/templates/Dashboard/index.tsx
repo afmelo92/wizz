@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import { Flex, SimpleGrid, Box, Text, theme } from '@chakra-ui/react'
 import { Sidebar } from 'components/Sidebar'
 import { Header } from 'components/Header'
+
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false
 })
@@ -53,7 +54,16 @@ const options = {
   }
 }
 
-const series = [{ name: 'series1', data: [31, 120, 12, 28, 61, 18, 109] }]
+const series1 = [{ name: 'series1', data: [31, 120, 12, 28, 61, 18, 109] }]
+const series2 = [
+  { name: 'series2', data: [3233, 3562, 3888, 4215, 4999, 5889, 8978] }
+]
+const series3 = [{ name: 'series3', data: [11, 3, 12, 18, 1, 2, 6] }]
+const series4 = [{ name: 'series4', data: [1, 2, 1, 4, 5, 2, 2] }]
+const series5 = [{ name: 'series5', data: [56, 45, 12, 28, 61, 18, 109] }]
+const series6 = [
+  { name: 'series6', data: [3215, 3215, 3215, 3215, 3215, 3215, 3215] }
+]
 
 const DashboadTemplate = () => {
   return (
@@ -63,27 +73,83 @@ const DashboadTemplate = () => {
         <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
           <Sidebar />
 
-          <SimpleGrid flex="1" gap="4" minChildWidth="320px" align="flex-start">
-            <Box p={['6', '8']} bg="gray.800" borderRadius={8} pb="4">
+          <SimpleGrid
+            flex="1"
+            gap="4"
+            minChildWidth="320px"
+            align="flex-start"
+            mb="4"
+          >
+            <Box
+              p={{ base: '6', lg: '8' }}
+              bg="gray.800"
+              borderRadius={8}
+              pb="4"
+            >
               <Text fontSize="lg" mb="4">
                 Inscritos da semana
               </Text>
               <Chart
                 type="area"
                 height={160}
-                series={series}
+                series={series1}
                 options={options}
               />
             </Box>
 
-            <Box p={['6', '8']} bg="gray.800" borderRadius={8}>
+            <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
               <Text fontSize="lg" mb="4">
-                Taxa de abertura
+                Ativos
               </Text>
               <Chart
                 type="area"
                 height={160}
-                series={series}
+                series={series2}
+                options={options}
+              />
+            </Box>
+
+            <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
+              <Text fontSize="lg" mb="4">
+                Cancelados
+              </Text>
+              <Chart
+                type="area"
+                height={160}
+                series={series3}
+                options={options}
+              />
+            </Box>
+            <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
+              <Text fontSize="lg" mb="4">
+                Vencidos
+              </Text>
+              <Chart
+                type="area"
+                height={160}
+                series={series4}
+                options={options}
+              />
+            </Box>
+            <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
+              <Text fontSize="lg" mb="4">
+                Pendentes
+              </Text>
+              <Chart
+                type="area"
+                height={160}
+                series={series5}
+                options={options}
+              />
+            </Box>
+            <Box p={{ base: '6', lg: '8' }} bg="gray.800" borderRadius={8}>
+              <Text fontSize="lg" mb="4">
+                Importados
+              </Text>
+              <Chart
+                type="area"
+                height={160}
+                series={series6}
                 options={options}
               />
             </Box>
