@@ -3,11 +3,10 @@ import {
   SimpleGrid,
   Box,
   Text,
-  Input,
   Stack,
   Select
 } from '@chakra-ui/react'
-
+import { Input } from 'components/Form/Input'
 const selectOptions = [
   'Ativos',
   'Cancelados',
@@ -32,13 +31,19 @@ export default function SearchBox() {
           <Text fontSize="lg" mb="4" color="pink.400">
             Instagram ou Email
           </Text>
-          <Input focusBorderColor="pink.500" placeholder="Pesquisar..." />
+          <Input
+            name="search"
+            type="search"
+            focusBorderColor="pink.500"
+            placeholder="Pesquisar..."
+          />
         </Box>
         <Box p={{ base: '6', lg: '8' }}>
           <Text fontSize="lg" mb="4" color="pink.400">
             Data de cadastro
           </Text>
           <Input
+            name="date"
             type="date"
             focusBorderColor="pink.500"
             placeholder="Pesquisar..."
