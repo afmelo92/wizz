@@ -2,7 +2,6 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { UserSubscription } from 'graphql/generated/graphql'
-// import { getSubscriptions } from 'graphql/queries/subscriptions'
 import getUserSubscriptions from 'graphql/queries/subscriptions'
 import { GetServerSidePropsContext } from 'next'
 import CloseFriendsTemplate from 'templates/CloseFriends'

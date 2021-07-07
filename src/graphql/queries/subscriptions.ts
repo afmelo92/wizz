@@ -33,8 +33,6 @@ const getUserSubscriptions = async (email: string) => {
 
   const data = JSON.parse(JSON.stringify(response))
 
-  formatUserSubscribersData(data.userSubsByUserEmail.data)
-
   return formatUserSubscribersData(data.userSubsByUserEmail.data)
 }
 

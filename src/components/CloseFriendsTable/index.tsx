@@ -16,9 +16,10 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react'
 import { UserSubscription } from 'graphql/generated/graphql'
+import { ModifiersProps } from 'utils/types'
 
 type CloseFriendsTableProps = {
-  subscriptions: [UserSubscription & { created_at: string }]
+  subscriptions: [UserSubscription & ModifiersProps]
 }
 
 export default function CloseFriendsTable({
