@@ -1,11 +1,12 @@
-import { Container, VStack, Button, useBreakpointValue } from '@chakra-ui/react'
-import { Textarea } from 'components/Textarea'
-import { Input } from 'components/Form/Input'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { Container, VStack, Button, useBreakpointValue } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { userInviteFormSchema } from 'utils/validations'
-import { api } from 'services/api'
+import { Input } from 'components/Form/Input'
+import { Textarea } from 'components/Textarea'
 import { Session } from 'next-auth/client'
+import { api } from 'services/api'
+import { userInviteFormSchema } from 'utils/validations'
 
 export type UserInviteFormTemplateProps = {
   session: Session

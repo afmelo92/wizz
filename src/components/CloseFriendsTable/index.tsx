@@ -1,3 +1,6 @@
+import { RiPencilLine } from 'react-icons/ri'
+import { useQueryClient } from 'react-query'
+
 import {
   Container,
   Box,
@@ -13,29 +16,21 @@ import {
   Checkbox,
   useBreakpointValue
 } from '@chakra-ui/react'
+import { UserSubscription } from 'graphql/generated/graphql'
 
 type CloseFriendsTableProps = {
-  subscribers: {
-    status: string
-    created_at: string
-    subscriber: {
-      subscriber_instagram: string
-      subscriber_phone: string
-      subscriber_email: string
-      stripe_customer_id: string
-    }
-  }[]
+  subscriptions: UserSubscription[]
 }
 
-import { RiPencilLine } from 'react-icons/ri'
-
 export default function CloseFriendsTable({
-  subscribers
+  subscriptions
 }: CloseFriendsTableProps) {
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
   })
+
+  // console.log('DATE:::', new Date(1625509262860000 / 1000))
 
   return (
     <Container w="100%" maxW="1200px" p="0">
@@ -52,7 +47,7 @@ export default function CloseFriendsTable({
           </Tr>
         </Thead>
         <Tbody>
-          {subscribers.map(sub => (
+          {subscriptions.map(sub => (
             <Tr key={sub.subscriber.stripe_customer_id}>
               <Td px={['4', '4', '6']}>
                 <Checkbox colorScheme="pink" />
@@ -67,7 +62,7 @@ export default function CloseFriendsTable({
                   </Text>
                 </Box>
               </Td>
-              {isWideVersion && <Td>{sub.created_at}</Td>}
+              {isWideVersion && <Td>{String(new Date(sub._ts / 1000))}</Td>}
               {isWideVersion && <Td>{sub.status}</Td>}
               <Td>
                 <Button

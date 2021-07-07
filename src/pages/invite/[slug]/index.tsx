@@ -1,25 +1,34 @@
+import { QueryClient, useQuery } from 'react-query'
+
+import { query as q } from 'faunadb'
+import { User } from 'graphql/generated/graphql'
+import getUsersInvitePage from 'graphql/queries/getUsersInvitePage'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { fauna } from 'services/fauna'
-import { query as q } from 'faunadb'
-
 import InviteTemplate, {
   InviteTemplatePageProps
 } from 'templates/Invite/Subscribe'
-import { Users, User } from 'utils/types/faunaTypes'
 
 export default function InviteDynamicPage(props: InviteTemplatePageProps) {
   return <InviteTemplate {...props} />
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const users = await fauna.query<Users>(
-    q.Map(
-      q.Paginate(q.Match(q.Index('all_users'))),
-      q.Lambda('X', q.Get(q.Var('X')))
-    )
+export async function getStaticPaths() {
+  const queryClient = new QueryClient()
+
+  // const { email } = session.user
+
+  // const subscribers = await getSubscriptions(email)
+
+  const result = await queryClient.fetchQuery<User[]>(
+    ['users', 'invite'],
+    getUsersInvitePage,
+    {
+      staleTime: Infinity
+    }
   )
 
-  const paths = users.data.map(({ data: { instagram } }) => ({
+  const paths = result.map(({ instagram }) => ({
     params: { slug: instagram }
   }))
 
@@ -30,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params
 
   const user = await fauna.query<User>(
-    q.Get(q.Match(q.Index('user_by_instagram'), q.Casefold(slug)))
+    q.Get(q.Match(q.Index('userByInstagram'), q.Casefold(slug)))
   )
 
   return {

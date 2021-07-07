@@ -1,3 +1,5 @@
+import { RiMenuLine } from 'react-icons/ri'
+
 import {
   Flex,
   IconButton,
@@ -7,14 +9,14 @@ import {
   HStack,
   Box
 } from '@chakra-ui/react'
-import Link from 'next/link'
-import { Profile } from './Profile'
-import { NotificationsNav } from './NotificationsNav'
-import { SearchBox } from './SearchBox'
-import { Logo } from './Logo'
 import { useSidebarDrawer } from 'contexts/SidebarDrawerContext'
-import { RiMenuLine } from 'react-icons/ri'
 import { useSession } from 'next-auth/client'
+import Link from 'next/link'
+
+import { Logo } from './Logo'
+import { NotificationsNav } from './NotificationsNav'
+import { Profile } from './Profile'
+import { SearchBox } from './SearchBox'
 
 export function Header() {
   const { onOpen } = useSidebarDrawer()

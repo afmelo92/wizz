@@ -1,6 +1,6 @@
+import { query as q } from 'faunadb'
 import { GetServerSidePropsContext } from 'next'
 import { fauna } from 'services/fauna'
-import { query as q } from 'faunadb'
 import AccountTemplate, { AccountemplateProps } from 'templates/Account'
 import protectedRoutes from 'utils/protected-routes'
 import { User } from 'utils/types/faunaTypes'

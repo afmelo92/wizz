@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable react/display-name */
 import { useState } from 'react'
-import S3 from 'aws-sdk/clients/s3'
 
+import S3 from 'aws-sdk/clients/s3'
 import { api } from 'services/api'
 
 const getFileContents = (file: File): Promise<any> => {

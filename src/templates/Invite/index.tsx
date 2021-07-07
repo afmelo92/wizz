@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
+import { Flex, Stack, useBreakpointValue } from '@chakra-ui/react'
 import { Header } from 'components/Header'
 import { Sidebar } from 'components/Sidebar'
-import { Flex, Stack, useBreakpointValue } from '@chakra-ui/react'
-
-import UserInviteForm from 'templates/Forms/UserInviteForm'
 import { Session } from 'next-auth/client'
+import UserInviteForm from 'templates/Forms/UserInviteForm'
+
 import UserInvitePreview from './Preview'
 
 export type UserInviteTemplateProps = {

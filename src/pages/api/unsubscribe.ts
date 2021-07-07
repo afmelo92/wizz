@@ -1,10 +1,11 @@
+import { query as q } from 'faunadb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { fauna } from 'services/fauna'
-import { query as q } from 'faunadb'
 // import messagebird from 'services/messagebird'
 import { Subscriber, User } from 'utils/types/faunaTypes'
-import sendValidationCode from './_lib/sendValidationCode'
+
 import deleteSubscription from './_lib/manageUnsubscription'
+import sendValidationCode from './_lib/sendValidationCode'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {

@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from 'next'
 import protectedRoutes from 'utils/protected-routes'
+
 import DashboardTemplate from '../templates/Dashboard'
 
 export default function DashboardPage() {

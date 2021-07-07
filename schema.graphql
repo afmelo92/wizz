@@ -1,0 +1,79 @@
+type User {
+  email: String! @unique
+  instagram: String
+  verified: Boolean
+  invite: Invite
+  account: Account
+}
+
+type Invite @embedded {
+  exhibition_name: String
+  custom_text: String
+  subscription_price: Int
+  price_id: String
+  product_id: String
+}
+
+type Account @embedded {
+  under_analysis: Boolean
+  user_email: String
+  address_number: String
+  cep: String
+  birthdate: String
+  phone: String
+  email: String
+  cpf: String
+  lastname: String
+  firstname: String
+  address_doc: DocsUrl
+  personal_doc: DocsUrl
+  instagram_print: DocsUrl
+}
+
+type DocsUrl @embedded {
+  url: String
+  key: String
+}
+
+type UserSubscription {
+  subscriber_id: String
+  subscriber: Subscriber! @relation(name: "subscription_subs")
+  user: User! @relation(name: "subscription_user")
+  status: String
+  price_id: String
+}
+
+type Subscriber {
+  subscriber_instagram: String
+  subscriber_phone: String
+  subscriber_email: String
+  stripe_customer_id: String
+}
+
+input LoginUserInput {
+  username: String!
+  password: String!
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+input UserSubsByUserEmailInput {
+  email: String!
+}
+
+type Query {
+  allUsers: [User!]!
+  allSubscribers: [Subscriber!]!
+  allSubscriptions: [UserSubscription!]!
+  userByEmail(email: String!): User!
+  userByInstagram(instagram: String!): User!
+  userSubsByUserEmail(email: String!): [UserSubscription!]! @resolver(name: "user_subs_by_user_email", paginated: true)
+}
+
+type Mutation {
+  createUser(input: CreateUserInput): User! @resolver(name: "create_user")
+  loginUser(input: LoginUserInput): String! @resolver(name: "login_user")
+}

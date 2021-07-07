@@ -1,28 +1,31 @@
+import { useQuery } from 'react-query'
+
 import { Flex } from '@chakra-ui/react'
-import { Sidebar } from 'components/Sidebar'
-import { Header } from 'components/Header'
 import CloseFriendsTable from 'components/CloseFriendsTable'
-import Pagination from 'components/Pagination'
+import { Header } from 'components/Header'
 import InfoBox from 'components/InfoBox'
+import Pagination from 'components/Pagination'
 import SearchBox from 'components/SearchBox'
+import { Sidebar } from 'components/Sidebar'
+import { User, UserSubscription } from 'graphql/generated/graphql'
+import getUsers from 'graphql/queries/getAllUsers'
+import getUserSubscriptions from 'graphql/queries/subscriptions'
+import { useSession } from 'next-auth/client'
+// import { getSubscriptions } from 'graphql/queries/subscriptions'
 
-export type CloseFriendsTemplatePageProps = {
-  subscribers: {
-    status: string
-    created_at: string
-    subscriber: {
-      subscriber_instagram: string
-      subscriber_phone: string
-      subscriber_email: string
-      stripe_customer_id: string
-    }
-  }[]
-}
-
-const CloseFriendsTemplate = ({
-  subscribers
-}: CloseFriendsTemplatePageProps) => {
+const CloseFriendsTemplate = () => {
   const instagramSessionId = false
+  const [session] = useSession()
+
+  const { data } = useQuery<UserSubscription[]>(
+    'subscriptions',
+    () => getUserSubscriptions(session.user.email),
+    {
+      staleTime: Infinity
+    }
+  )
+
+  // console.log('CLOSE FRIENDS:::', data)
 
   return (
     <>
@@ -43,15 +46,15 @@ const CloseFriendsTemplate = ({
 
             <SearchBox />
 
-            <CloseFriendsTable subscribers={subscribers} />
+            <CloseFriendsTable subscriptions={data} />
 
-            <Pagination
-              totalCountOfRegisters={subscribers.length}
+            {/* <Pagination
+              totalCountOfRegisters={subscribers.length || 4}
               currentPage={1}
               onPageChange={() => {
                 console.log('hello')
               }}
-            />
+            /> */}
           </Flex>
         </Flex>
       </Flex>
