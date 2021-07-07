@@ -4,14 +4,11 @@ import { Flex } from '@chakra-ui/react'
 import CloseFriendsTable from 'components/CloseFriendsTable'
 import { Header } from 'components/Header'
 import InfoBox from 'components/InfoBox'
-import Pagination from 'components/Pagination'
 import SearchBox from 'components/SearchBox'
 import { Sidebar } from 'components/Sidebar'
-import { User, UserSubscription } from 'graphql/generated/graphql'
-import getUsers from 'graphql/queries/getAllUsers'
+import { UserSubscription } from 'graphql/generated/graphql'
 import getUserSubscriptions from 'graphql/queries/subscriptions'
 import { useSession } from 'next-auth/client'
-// import { getSubscriptions } from 'graphql/queries/subscriptions'
 
 const CloseFriendsTemplate = () => {
   const instagramSessionId = false
@@ -24,8 +21,6 @@ const CloseFriendsTemplate = () => {
       staleTime: Infinity
     }
   )
-
-  // console.log('CLOSE FRIENDS:::', data)
 
   return (
     <>

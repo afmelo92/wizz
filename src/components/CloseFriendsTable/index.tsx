@@ -1,5 +1,4 @@
 import { RiPencilLine } from 'react-icons/ri'
-import { useQueryClient } from 'react-query'
 
 import {
   Container,
@@ -19,7 +18,7 @@ import {
 import { UserSubscription } from 'graphql/generated/graphql'
 
 type CloseFriendsTableProps = {
-  subscriptions: UserSubscription[]
+  subscriptions: [UserSubscription & { created_at: string }]
 }
 
 export default function CloseFriendsTable({
@@ -29,8 +28,6 @@ export default function CloseFriendsTable({
     base: false,
     lg: true
   })
-
-  // console.log('DATE:::', new Date(1625509262860000 / 1000))
 
   return (
     <Container w="100%" maxW="1200px" p="0">
@@ -62,7 +59,7 @@ export default function CloseFriendsTable({
                   </Text>
                 </Box>
               </Td>
-              {isWideVersion && <Td>{String(new Date(sub._ts / 1000))}</Td>}
+              {isWideVersion && <Td>{sub.created_at}</Td>}
               {isWideVersion && <Td>{sub.status}</Td>}
               <Td>
                 <Button
