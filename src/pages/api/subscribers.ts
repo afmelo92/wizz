@@ -1,6 +1,6 @@
+import { query as q } from 'faunadb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { fauna } from 'services/fauna'
-import { query as q } from 'faunadb'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {

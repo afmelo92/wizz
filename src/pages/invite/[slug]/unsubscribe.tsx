@@ -1,7 +1,6 @@
+import { query as q } from 'faunadb'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { fauna } from 'services/fauna'
-import { query as q } from 'faunadb'
-
 import UnsubscribeTemplate, {
   InviteTemplatePageProps
 } from 'templates/Invite/Unsubscribe'

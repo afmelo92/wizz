@@ -3,18 +3,14 @@ import { Input } from 'components/Form/Input'
 import Profile from 'templates/Invite/Profile'
 
 type UserInvitePreviewProps = {
-  userData: {
-    data: {
-      instagram: string
-    }
-  }
+  slug: string
   previewName: string
   previewText: string
   previewPrice: string
 }
 
 export default function UserInvitePreview({
-  userData,
+  slug,
   previewName,
   previewText,
   previewPrice
@@ -32,7 +28,7 @@ export default function UserInvitePreview({
       >
         <Profile
           exhibition_name={previewName}
-          slug={userData.data.instagram}
+          slug={slug}
           custom_text={previewText}
           preview
         />

@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { query as q } from 'faunadb'
 import NextAuth from 'next-auth'
 import { GenericObject } from 'next-auth/_utils'
 import Providers from 'next-auth/providers'
 import { fauna } from 'services/fauna'
+import { User } from 'utils/types/faunaTypes'
 
 export default NextAuth({
   pages: {
@@ -20,16 +22,13 @@ export default NextAuth({
   ],
   callbacks: {
     async session(session: GenericObject, token: GenericObject) {
-      // console.log('session (session) :::', session)
-      // console.log('token (session) :::', token)
-
       try {
         const userFaunaData =
-          (await fauna.query(
-            q.Get(q.Match(q.Index('user_by_email'), q.Casefold(token.email)))
+          (await fauna.query<User>(
+            q.Get(q.Match(q.Index('userByEmail'), q.Casefold(token.email)))
           )) || null
 
-        return { ...session, userData: userFaunaData }
+        return { ...session, userData: userFaunaData as User }
       } catch (err) {
         return session
       }
@@ -41,12 +40,10 @@ export default NextAuth({
         await fauna.query(
           q.If(
             q.Not(
-              q.Exists(
-                q.Match(q.Index('user_by_email'), q.Casefold(user.email))
-              )
+              q.Exists(q.Match(q.Index('userByEmail'), q.Casefold(user.email)))
             ),
             q.Create(q.Collection('users'), { data: { email } }),
-            q.Get(q.Match(q.Index('user_by_email'), q.Casefold(user.email)))
+            q.Get(q.Match(q.Index('userByEmail'), q.Casefold(user.email)))
           )
         )
 

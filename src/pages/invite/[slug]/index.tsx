@@ -1,4 +1,4 @@
-import { QueryClient, useQuery } from 'react-query'
+import { QueryClient } from 'react-query'
 
 import { query as q } from 'faunadb'
 import { User } from 'graphql/generated/graphql'
@@ -13,12 +13,8 @@ export default function InviteDynamicPage(props: InviteTemplatePageProps) {
   return <InviteTemplate {...props} />
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const queryClient = new QueryClient()
-
-  // const { email } = session.user
-
-  // const subscribers = await getSubscriptions(email)
 
   const result = await queryClient.fetchQuery<User[]>(
     ['users', 'invite'],

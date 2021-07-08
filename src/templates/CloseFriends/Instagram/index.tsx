@@ -1,4 +1,6 @@
-import Link from 'next/link'
+import { useState } from 'react'
+import { RiArrowLeftLine } from 'react-icons/ri'
+
 import {
   Box,
   Flex,
@@ -11,8 +13,7 @@ import {
   Stack,
   useBreakpointValue
 } from '@chakra-ui/react'
-import { RiArrowLeftLine } from 'react-icons/ri'
-import { useState } from 'react'
+import Link from 'next/link'
 
 export default function InstagramTemplate() {
   const [show, setShow] = useState(false)

@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import aws from 'aws-sdk'
-import { v4 as uuidv4 } from 'uuid'
-import { fauna } from 'services/fauna'
 import { query as q } from 'faunadb'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { fauna } from 'services/fauna'
 import { User } from 'utils/types/faunaTypes'
+import { v4 as uuidv4 } from 'uuid'
 
 const missingEnvs = (): string[] => {
   const keys = [

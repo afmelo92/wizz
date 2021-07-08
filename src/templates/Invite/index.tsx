@@ -3,8 +3,9 @@ import React, { useState } from 'react'
 import { Flex, Stack, useBreakpointValue } from '@chakra-ui/react'
 import { Header } from 'components/Header'
 import { Sidebar } from 'components/Sidebar'
-import { Session } from 'next-auth/client'
+import { Session } from 'next-auth'
 import UserInviteForm from 'templates/Forms/UserInviteForm'
+import { User } from 'utils/types/faunaTypes'
 
 import UserInvitePreview from './Preview'
 
@@ -15,17 +16,17 @@ export type UserInviteTemplateProps = {
 export default function UserInviteTemplate({
   session
 }: UserInviteTemplateProps) {
-  const { userData } = session
+  const user = session.userData as User
 
   const [previewName, setpreviewName] = useState(
-    userData.data.invite?.exhibition_name || ''
+    user.data.invite?.exhibition_name || ''
   )
   const [previewPrice, setpreviewPrice] = useState(
-    String(userData.data.invite?.subscription_price || 0)
+    String(user.data.invite?.subscription_price || 0)
   )
 
   const [previewText, setpreviewText] = useState(
-    userData.data.invite?.custom_text || ''
+    user.data.invite?.custom_text || ''
   )
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -53,7 +54,7 @@ export default function UserInviteTemplate({
             />
 
             <UserInvitePreview
-              userData={userData}
+              slug={user.data.instagram}
               previewName={previewName}
               previewText={previewText}
               previewPrice={previewPrice}
