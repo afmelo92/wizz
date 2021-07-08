@@ -1,7 +1,6 @@
 import { gql } from 'graphql-request'
+import graphQLClient from 'graphql/graphql-client'
 import { formatUserSubscribersData } from 'utils/formatDate'
-
-import graphQLClient from '../graphql-client'
 
 const getUserSubscriptions = async (email: string) => {
   const query = gql`

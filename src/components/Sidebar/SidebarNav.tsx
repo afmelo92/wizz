@@ -1,4 +1,3 @@
-import { Flex, Stack } from '@chakra-ui/react'
 import {
   RiGroupLine,
   RiDashboardLine,
@@ -6,6 +5,9 @@ import {
   RiReplyAllLine,
   RiToolsFill
 } from 'react-icons/ri'
+
+import { Flex, Stack } from '@chakra-ui/react'
+
 import NavLink from './NavLink'
 import NavSection from './NavSection'
 
@@ -23,7 +25,7 @@ export default function SidebarNav() {
           <NavLink href="/invite" icon={RiReplyAllLine}>
             Convite
           </NavLink>
-          <NavLink href="/loja" icon={RiStore2Line}>
+          <NavLink href={`/afmelo.sh/store`} icon={RiStore2Line}>
             Minha Loja
           </NavLink>
         </NavSection>

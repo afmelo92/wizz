@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { Container, VStack, Text } from '@chakra-ui/react'
+import Link from 'next/link'
 import InviteForm from 'templates/Forms/InviteForm'
 import Profile from 'templates/Invite/Profile'
 
