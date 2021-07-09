@@ -28,8 +28,6 @@ const getUserByInstagram = async (instagram: string) => {
 
   const data = JSON.parse(JSON.stringify(response))
 
-  console.log('QUERY GET USER BY INSTA:::', data)
-
   return data.userByInstagram
 }
 

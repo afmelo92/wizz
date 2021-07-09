@@ -1,6 +1,6 @@
 export const unsubFirstMessage =
   'Lamento que queira se desinscrever. Caso não exista outra alternativa para\
-  que continueem meu close friends envie seu email ou telefone de inscrito e farei isso o mais rápido\
+  que continue em meu close friends envie seu email ou telefone de inscrito e farei isso o mais rápido\
   possível'
 
 export const unsubConfirmationMessage =

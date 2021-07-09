@@ -2,6 +2,8 @@ import { gql } from 'graphql-request'
 import graphQLClient from 'graphql/graphql-client'
 import { formatUserSubscribersData } from 'utils/formatDate'
 
+// Adaptar para paginação
+
 const getUserSubscriptions = async (email: string) => {
   const query = gql`
     query userSubscriptions($email: String!) {
