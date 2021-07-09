@@ -54,9 +54,7 @@ const getUser = async (email: string) => {
 
   const data = JSON.parse(JSON.stringify(response))
 
-  console.log('GET USER QUERY:::', data.userByEmail.data)
-
-  return data.userByEmail.data
+  return data.userByEmail
 }
 
 export default getUser

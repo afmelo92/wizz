@@ -1,9 +1,10 @@
-import { query as q } from 'faunadb'
+import { QueryClient } from 'react-query'
+
+import { User } from 'graphql/generated/graphql'
+import getUserUnderAnalysis from 'graphql/queries/getUserUnderAnalysis'
 import { GetServerSidePropsContext } from 'next'
-import { fauna } from 'services/fauna'
 import AccountTemplate, { AccountemplateProps } from 'templates/Account'
 import protectedRoutes from 'utils/protected-routes'
-import { User } from 'utils/types/faunaTypes'
 
 export default function AccountPage(props: AccountemplateProps) {
   return <AccountTemplate {...props} />
@@ -12,14 +13,18 @@ export default function AccountPage(props: AccountemplateProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context)
 
-  const user = await fauna.query<User>(
-    q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
+  const queryClient = new QueryClient()
+
+  const user = await queryClient.fetchQuery<User>('under-analysis', () =>
+    getUserUnderAnalysis(session.user.email)
   )
+
+  console.log('USER:::', user)
 
   return {
     props: {
       session,
-      underAnalysis: user.data.account?.underAnalysis || false
+      underAnalysis: user.account.under_analysis || false
     }
   }
 }
