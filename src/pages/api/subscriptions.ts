@@ -1,5 +1,8 @@
+import { QueryClient } from 'react-query'
+
 import { query as q } from 'faunadb'
 import { User } from 'graphql/generated/graphql'
+import getUserByInstagram from 'graphql/queries/getUserByInstagram'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { fauna } from 'services/fauna'
 import { stripe } from 'services/stripe'
@@ -14,8 +17,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } = req.body
 
     try {
-      const user = await fauna.query<User>(
-        q.Get(q.Match(q.Index('userByInstagram'), q.Casefold(influencer)))
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: Infinity
+          }
+        }
+      })
+
+      const user = await queryClient.fetchQuery<Promise<User>>(
+        'user-subs',
+        () => getUserByInstagram(influencer.toLowerCase())
       )
 
       const productId = user.invite?.product_id || ''
@@ -38,8 +50,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         })
 
+        // ALTERAR PARA MUTATION
         await fauna.query(
-          q.Update(q.Ref(q.Collection('users'), user._id), {
+          q.Update(q.Ref(q.Collection('User'), user._id), {
             data: {
               invite: {
                 exhibition_name,
@@ -72,8 +85,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           }
         })
 
+        // ALTERAR PARA MUTATION
         await fauna.query(
-          q.Update(q.Ref(q.Collection('users'), user._id), {
+          q.Update(q.Ref(q.Collection('User'), user._id), {
             data: {
               invite: {
                 exhibition_name,
@@ -96,8 +110,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         name: `Close Friends :: @${influencer} :: ${exhibition_name}`
       })
 
+      // ALTERAR PARA MUTATION
       await fauna.query(
-        q.Update(q.Ref(q.Collection('users'), user._id), {
+        q.Update(q.Ref(q.Collection('User'), user._id), {
           data: {
             invite: {
               exhibition_name,

@@ -35,12 +35,7 @@ export default function UserInviteForm({
     lg: true
   })
 
-  const {
-    register,
-    handleSubmit,
-    formState,
-    reset
-  } = useForm<UserInviteFormData>({
+  const { register, handleSubmit, formState } = useForm<UserInviteFormData>({
     resolver: yupResolver(userInviteFormSchema),
     defaultValues: {
       custom_text: user.invite?.custom_text || '',
@@ -56,20 +51,13 @@ export default function UserInviteForm({
     event.preventDefault()
 
     try {
-      if (!user.verified) {
-        await api.post('/subscriptions', {
+      if (user.verified) {
+        return api.post('/subscriptions', {
           custom_text: values.custom_text,
           exhibition_name: values.exhibition_name,
           influencer: user.instagram,
           subscription_price: Number(values.price.replace(/\D/g, ''))
         })
-
-        reset({
-          custom_text: '',
-          exhibition_name: '',
-          price: ''
-        })
-        return
       }
 
       throw new Error(

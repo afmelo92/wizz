@@ -32,12 +32,12 @@ export default NextAuth({
           }
         })
 
-        const userFaunaData = await queryClient.fetchQuery<Promise<User>>(
+        const userData = await queryClient.fetchQuery<Promise<User>>(
           'user-auth',
           () => getUser(token.email.toLowerCase())
         )
 
-        return { ...session, userData: userFaunaData }
+        return { ...session, userData }
       } catch (err) {
         return session
       }

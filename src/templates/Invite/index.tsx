@@ -26,6 +26,7 @@ export default function UserInviteTemplate({
   )
 
   const [previewText, setpreviewText] = useState(user.invite?.custom_text || '')
+
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
