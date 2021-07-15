@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { QueryClient } from 'react-query'
+
 import { query as q } from 'faunadb'
+import { User } from 'graphql/generated/graphql'
+import getUser from 'graphql/queries/getUser'
 import NextAuth from 'next-auth'
 import { GenericObject } from 'next-auth/_utils'
 import Providers from 'next-auth/providers'
 import { fauna } from 'services/fauna'
-import { User } from 'utils/types/faunaTypes'
 
 export default NextAuth({
   pages: {
@@ -23,12 +26,20 @@ export default NextAuth({
   callbacks: {
     async session(session: GenericObject, token: GenericObject) {
       try {
-        const userFaunaData =
-          (await fauna.query<User>(
-            q.Get(q.Match(q.Index('userByEmail'), q.Casefold(token.email)))
-          )) || null
+        const queryClient = new QueryClient({
+          defaultOptions: {
+            queries: {
+              staleTime: Infinity
+            }
+          }
+        })
 
-        return { ...session, userData: userFaunaData as User }
+        const userFaunaData = await queryClient.fetchQuery<User>(
+          'user-auth',
+          () => getUser(String(token.email).toLowerCase())
+        )
+
+        return { ...session, userData: userFaunaData }
       } catch (err) {
         return session
       }

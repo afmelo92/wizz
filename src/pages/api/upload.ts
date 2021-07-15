@@ -1,7 +1,8 @@
+import { QueryClient } from 'react-query'
+
 import aws from 'aws-sdk'
-import { query as q } from 'faunadb'
+import getUser from 'graphql/queries/getUser'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { fauna } from 'services/fauna'
 import { User } from 'utils/types/faunaTypes'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -36,8 +37,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const bucket = process.env.S3_UPLOAD_BUCKET
 
-    const user = await fauna.query<User>(
-      q.Get(q.Match(q.Index('user_by_email'), email))
+    const queryClient = new QueryClient()
+
+    const user = await queryClient.fetchQuery<User>('user', () =>
+      getUser(email)
     )
 
     let deleteKey = ''

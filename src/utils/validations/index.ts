@@ -52,7 +52,7 @@ export const inviteFormSchema = yup.object().shape({
 export const userInviteFormSchema = yup.object().shape({
   exhibition_name: yup.string().required('Nome de exibição obrigatório'),
   custom_text: yup.string().max(180, 'No máximo 180 caracteres'),
-  subscription_price: yup.string().required('Preço da mensalidade obrigatório')
+  price: yup.string().required('Preço da mensalidade obrigatório')
 })
 
 export const accountFormSchema = yup.object().shape({

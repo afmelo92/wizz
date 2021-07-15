@@ -4,7 +4,8 @@ import { Container, VStack, Button, useBreakpointValue } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Form/Input'
 import { Textarea } from 'components/Textarea'
-import { Session } from 'next-auth/client'
+import { User } from 'graphql/generated/graphql'
+import { Session } from 'next-auth'
 import { api } from 'services/api'
 import { userInviteFormSchema } from 'utils/validations'
 
@@ -18,7 +19,7 @@ export type UserInviteFormTemplateProps = {
 type UserInviteFormData = {
   exhibition_name: string
   custom_text: string
-  subscription_price: string
+  price: string
 }
 
 export default function UserInviteForm({
@@ -27,7 +28,7 @@ export default function UserInviteForm({
   setpreviewText,
   setpreviewPrice
 }: UserInviteFormTemplateProps) {
-  const { userData } = session
+  const user = session.userData as User
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -42,9 +43,9 @@ export default function UserInviteForm({
   } = useForm<UserInviteFormData>({
     resolver: yupResolver(userInviteFormSchema),
     defaultValues: {
-      custom_text: userData.data.invite?.custom_text || '',
-      exhibition_name: userData.data.invite?.exhibition_name || '',
-      subscription_price: userData.data.invite?.subscription_price || 0
+      custom_text: user.invite?.custom_text || '',
+      exhibition_name: user.invite?.exhibition_name || '',
+      price: String(user.invite?.subscription_price || '0,00')
     }
   })
 
@@ -55,19 +56,18 @@ export default function UserInviteForm({
     event.preventDefault()
 
     try {
-      if (userData.data.verified) {
+      if (!user.verified) {
         await api.post('/subscriptions', {
-          ...values,
-          influencer: userData.data.instagram,
-          subscription_price: Number(
-            values.subscription_price.replace(/\D/g, '')
-          )
+          custom_text: values.custom_text,
+          exhibition_name: values.exhibition_name,
+          influencer: user.instagram,
+          subscription_price: Number(values.price.replace(/\D/g, ''))
         })
 
         reset({
           custom_text: '',
           exhibition_name: '',
-          subscription_price: ''
+          price: ''
         })
         return
       }
@@ -128,8 +128,8 @@ export default function UserInviteForm({
             help="Esse valor será cobrado mensalmente em reais de cara seguidor. Apenas números."
             placeholder="50,00"
             focusBorderColor="pink.500"
-            {...register('subscription_price')}
-            error={formState.errors.subscription_price}
+            {...register('price')}
+            error={formState.errors.price}
             onChange={e => setpreviewPrice(e.currentTarget.value)}
           />
         </VStack>

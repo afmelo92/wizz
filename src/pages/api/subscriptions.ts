@@ -1,8 +1,8 @@
 import { query as q } from 'faunadb'
+import { User } from 'graphql/generated/graphql'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { fauna } from 'services/fauna'
 import { stripe } from 'services/stripe'
-import { User } from 'utils/types/faunaTypes'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -15,17 +15,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
       const user = await fauna.query<User>(
-        q.Get(q.Match(q.Index('user_by_instagram'), q.Casefold(influencer)))
+        q.Get(q.Match(q.Index('userByInstagram'), q.Casefold(influencer)))
       )
 
-      const productId = user.data.invite?.product_id || ''
+      const productId = user.invite?.product_id || ''
 
       // Verifica se não possui um produto ainda para cria-lo em seguida
       if (!productId) {
         const product = await stripe.products.create({
           name: `Close Friends :: @${influencer} :: ${exhibition_name}`,
           metadata: {
-            userId: user.ref.id
+            userId: user._id
           }
         })
 
@@ -39,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         await fauna.query(
-          q.Update(q.Ref(q.Collection('users'), user.ref.id), {
+          q.Update(q.Ref(q.Collection('users'), user._id), {
             data: {
               invite: {
                 exhibition_name,
@@ -56,15 +56,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // verificar se o preço anterior é diferente ao atual
       // para evitar novos preços no stripe
-      if (user.data.invite.subscription_price !== subscription_price) {
+      if (user.invite.subscription_price !== subscription_price) {
         // invalida o ultimo preço disponivel
-        await stripe.prices.update(user.data.invite.price_id, {
+        await stripe.prices.update(user.invite.price_id, {
           active: false
         })
 
         // cria um novo preço e associo ao produto do cliente
         const newPrice = await stripe.prices.create({
-          product: user.data.invite.product_id,
+          product: user.invite.product_id,
           unit_amount: subscription_price,
           currency: 'brl',
           recurring: {
@@ -73,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         await fauna.query(
-          q.Update(q.Ref(q.Collection('users'), user.ref.id), {
+          q.Update(q.Ref(q.Collection('users'), user._id), {
             data: {
               invite: {
                 exhibition_name,
@@ -87,17 +87,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res
           .status(200)
-          .json({ productId: user.data.invite.product_id, priceId: newPrice })
+          .json({ productId: user.invite.product_id, priceId: newPrice })
       }
 
       // já existe um produto de assinatura e o influencer alterou apenas
       // o nome de exibição e a mensagem
-      await stripe.products.update(user.data.invite.product_id, {
+      await stripe.products.update(user.invite.product_id, {
         name: `Close Friends :: @${influencer} :: ${exhibition_name}`
       })
 
       await fauna.query(
-        q.Update(q.Ref(q.Collection('users'), user.ref.id), {
+        q.Update(q.Ref(q.Collection('users'), user._id), {
           data: {
             invite: {
               exhibition_name,

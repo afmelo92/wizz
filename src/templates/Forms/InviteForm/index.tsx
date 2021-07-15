@@ -1,11 +1,12 @@
-import { VStack, Container } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { VStack, Container } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Input } from 'components/Form/Input'
 import { SubscribeButton } from 'components/SubscribeButton'
 import { api } from 'services/api'
-import { inviteFormSchema } from 'utils/validations'
 import { getStripeJS } from 'services/stripe-js'
-import { Input } from 'components/Form/Input'
+import { inviteFormSchema } from 'utils/validations'
 
 type InviteFormProps = {
   subscription_price: string

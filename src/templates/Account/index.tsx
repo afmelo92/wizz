@@ -1,9 +1,10 @@
-import { Header } from 'components/Header'
-import { Sidebar } from 'components/Sidebar'
-import InfoBox from 'components/InfoBox'
-import AccountForm from 'templates/Forms/AccountForm'
-import { Flex } from '@chakra-ui/react'
 import { useState } from 'react'
+
+import { Flex } from '@chakra-ui/react'
+import { Header } from 'components/Header'
+import InfoBox from 'components/InfoBox'
+import { Sidebar } from 'components/Sidebar'
+import AccountForm from 'templates/Forms/AccountForm'
 import { accountUnderAnalysisMessage } from 'utils/defaultMessages'
 
 export type AccountemplateProps = {

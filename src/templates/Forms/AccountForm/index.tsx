@@ -1,3 +1,5 @@
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
+
 import {
   Container,
   Flex,
@@ -7,14 +9,13 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
-import { api } from 'services/api'
-import { accountFormSchema } from 'utils/validations'
-import { Input } from 'components/Form/Input'
-import { FileInput } from 'components/Form/FileInput'
 import { ConnectForm } from 'components/Form/ConnectForm'
+import { FileInput } from 'components/Form/FileInput'
+import { Input } from 'components/Form/Input'
 import { useS3Upload } from 'hooks/use-s3-upload'
 import { useSession } from 'next-auth/client'
+import { api } from 'services/api'
+import { accountFormSchema } from 'utils/validations'
 
 export type AccountFormProps = {
   setSendForm: (value: boolean) => void

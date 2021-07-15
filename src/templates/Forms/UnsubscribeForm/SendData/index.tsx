@@ -1,8 +1,9 @@
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
 import { Container, VStack, Button } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Input } from 'components/Form/Input'
-import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import { api } from 'services/api'
 import { emailSchema, phoneSchema } from 'utils/validations'
 

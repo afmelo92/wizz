@@ -49,7 +49,7 @@ const CloseFriendsTemplate = () => {
             <CloseFriendsTable subscriptions={data} />
 
             <Pagination
-              totalCountOfRegisters={data.length || 4}
+              totalCountOfRegisters={data?.length || 4}
               currentPage={1}
               onPageChange={() => {
                 console.log('hello')

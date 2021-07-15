@@ -19,8 +19,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     getUserUnderAnalysis(session.user.email)
   )
 
-  console.log('USER:::', user)
-
   return {
     props: {
       session,

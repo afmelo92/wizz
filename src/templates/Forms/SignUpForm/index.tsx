@@ -1,7 +1,8 @@
-import { Container, VStack, Button } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Input } from 'components/Form/Input'
+
+import { Container, VStack, Button } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Input } from 'components/Form/Input'
 import { signUpFormSchema } from 'utils/validations'
 
 type SignUpFormData = {

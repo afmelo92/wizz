@@ -71,6 +71,7 @@ type Query {
   userByEmail(email: String!): User!
   userByInstagram(instagram: String!): User!
   userSubsByUserEmail(email: String!): [UserSubscription!]! @resolver(name: "user_subs_by_user_email", paginated: true)
+  subscriberByEmail(subscriber_email: String!): Subscriber!
 }
 
 type Mutation {
