@@ -34,7 +34,7 @@ export default NextAuth({
           }
         })
 
-        const userFaunaData = await queryClient.fetchQuery<User>(
+        const userFaunaData = await queryClient.fetchQuery<Promise<User>>(
           'user-auth',
           () => getUser(String(token.email).toLowerCase())
         )
