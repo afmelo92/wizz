@@ -75,6 +75,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           active: false
         })
 
+        await stripe.products.update(user.invite.product_id, {
+          name: `Close Friends :: @${influencer} :: ${exhibition_name}`
+        })
+
         // cria um novo preço e associo ao produto do cliente
         const newPrice = await stripe.prices.create({
           product: user.invite.product_id,
