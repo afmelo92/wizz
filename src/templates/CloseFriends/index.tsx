@@ -19,7 +19,7 @@ const CloseFriendsTemplate = () => {
   const { data } = useQuery(
     'subscriptions',
     () =>
-      getUserSubscriptions(session.user.email) as Promise<
+      getUserSubscriptions({ email: session.user.email, size: 4 }) as Promise<
         [UserSubscription & ModifiersProps]
       >,
     {

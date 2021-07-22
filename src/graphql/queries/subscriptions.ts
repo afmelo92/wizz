@@ -2,12 +2,22 @@ import { gql } from 'graphql-request'
 import graphQLClient from 'graphql/graphql-client'
 import { formatUserSubscribersData } from 'utils/formatDate'
 
-// Adaptar para paginação
+type QueryProps = {
+  email: string
+  size?: number
+  cursor?: string
+}
 
-const getUserSubscriptions = async (email: string) => {
+const getUserSubscriptions = async ({
+  email,
+  size = 4,
+  cursor = null
+}: QueryProps) => {
   const query = gql`
     query userSubscriptions($email: String!) {
-      userSubsByUserEmail(email: $email) {
+      userSubsByUserEmail(email: $email, _size: ${size}, _cursor: ${cursor}) {
+        after
+        before
         data {
           _ts
           _id
