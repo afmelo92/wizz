@@ -1,6 +1,5 @@
 import { gql } from 'graphql-request'
 import graphQLClient from 'graphql/graphql-client'
-import { formatUserSubscribersData } from 'utils/formatDate'
 
 type QueryProps = {
   email: string
@@ -10,7 +9,7 @@ type QueryProps = {
 
 const getUserSubscriptions = async ({
   email,
-  size = 4,
+  size = null,
   cursor = null
 }: QueryProps) => {
   const query = gql`
@@ -44,7 +43,7 @@ const getUserSubscriptions = async ({
 
   const data = JSON.parse(JSON.stringify(response))
 
-  return formatUserSubscribersData(data.userSubsByUserEmail.data)
+  return data.userSubsByUserEmail
 }
 
 export default getUserSubscriptions

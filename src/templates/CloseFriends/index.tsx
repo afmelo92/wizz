@@ -7,25 +7,27 @@ import InfoBox from 'components/InfoBox'
 import Pagination from 'components/Pagination'
 import SearchBox from 'components/SearchBox'
 import { Sidebar } from 'components/Sidebar'
-import { UserSubscription } from 'graphql/generated/graphql'
+import { QueryUserSubsByUserEmailPage } from 'graphql/generated/graphql'
 import getUserSubscriptions from 'graphql/queries/subscriptions'
 import { useSession } from 'next-auth/client'
-import { ModifiersProps } from 'utils/types'
 
 const CloseFriendsTemplate = () => {
   const instagramSessionId = false
   const [session] = useSession()
 
-  const { data } = useQuery(
+  const { data: subscriptions } = useQuery(
     'subscriptions',
     () =>
-      getUserSubscriptions({ email: session.user.email, size: 4 }) as Promise<
-        [UserSubscription & ModifiersProps]
-      >,
+      getUserSubscriptions({
+        email: session.user.email,
+        size: 4
+      }) as Promise<QueryUserSubsByUserEmailPage>,
     {
       staleTime: Infinity
     }
   )
+
+  console.log('SUBS:::', subscriptions)
 
   return (
     <>
@@ -46,10 +48,10 @@ const CloseFriendsTemplate = () => {
 
             <SearchBox />
 
-            <CloseFriendsTable subscriptions={data} />
+            <CloseFriendsTable subscriptions={subscriptions.data} />
 
             <Pagination
-              totalCountOfRegisters={data?.length || 4}
+              totalCountOfRegisters={subscriptions.data?.length || 4}
               currentPage={1}
               onPageChange={() => {
                 console.log('hello')

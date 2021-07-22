@@ -16,10 +16,9 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react'
 import { UserSubscription } from 'graphql/generated/graphql'
-import { ModifiersProps } from 'utils/types'
 
 type CloseFriendsTableProps = {
-  subscriptions: [UserSubscription & ModifiersProps]
+  subscriptions: UserSubscription[]
 }
 
 export default function CloseFriendsTable({
@@ -60,7 +59,15 @@ export default function CloseFriendsTable({
                   </Text>
                 </Box>
               </Td>
-              {isWideVersion && <Td>{sub.created_at}</Td>}
+              {isWideVersion && (
+                <Td>
+                  {new Intl.DateTimeFormat('pt-BR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                  }).format(new Date(sub._ts / 1000))}
+                </Td>
+              )}
               {isWideVersion && <Td>{sub.status}</Td>}
               <Td>
                 <Button

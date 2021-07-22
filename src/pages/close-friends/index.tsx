@@ -19,7 +19,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   await queryClient.prefetchQuery<UserSubscription[]>(
     'subscriptions',
-    () => getUserSubscriptions({ email, size: 4 }),
+    () => getUserSubscriptions({ email }),
     {
       staleTime: Infinity
     }
